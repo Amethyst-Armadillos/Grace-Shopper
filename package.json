@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "name": "armadillo-shopper",
+=======
+
+  "name": "armadillos-shopper",
+>>>>>>> 5bb6bf294b0b7c39c793f0b3b500e29ec9f8f5eb
   "version": "2.0.0",
   "description": "Some boilerplate code to get you started - get shakin'!",
   "main": "index.js",
