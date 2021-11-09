@@ -56,6 +56,20 @@ async function seed() {
         "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Nine-banded_armadillo.jpg/220px-Nine-banded_armadillo.jpg",
     }),
     Product.create({
+      name: "seven-banded armadillo",
+      price: 199.99,
+      stock: 50,
+      imageUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Dasypus_septemcinctus_hybridus_%28also_named_Dasypus_hybridus%29%2C_at_Valizas%2C_Uruguay.jpg/440px-Dasypus_septemcinctus_hybridus_%28also_named_Dasypus_hybridus%29%2C_at_Valizas%2C_Uruguay.jpg",
+    }),
+    Product.create({
+      name: "Southern long-nosed armadillo",
+      price: 149.99,
+      stock: 50,
+      imageUrl:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Dasypus_hybridus_-_Museo_Civico_di_Storia_Naturale_Giacomo_Doria_-_Genoa%2C_Italy_-_DSC03055.JPG/440px-Dasypus_hybridus_-_Museo_Civico_di_Storia_Naturale_Giacomo_Doria_-_Genoa%2C_Italy_-_DSC03055.JPG",
+    }),
+    Product.create({
       name: "tiger",
       price: 800.5,
       stock: 15,
@@ -82,6 +96,12 @@ async function seed() {
       stock: 9,
       imageUrl:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/African_elephant_%28Loxodonta_africana%29_%28cropped%29.jpg/220px-African_elephant_%28Loxodonta_africana%29_%28cropped%29.jpg",
+    }),
+    Product.create({
+      name: "zebra",
+      price: 800,
+      stock: 10,
+      imageUrl: "http://www.shutterstock.com/gallery-484132p1.html",
     }),
   ]);
 
