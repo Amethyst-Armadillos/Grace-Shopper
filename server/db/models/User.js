@@ -3,7 +3,6 @@ const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
-const Product = require("./products");
 
 const SALT_ROUNDS = 5;
 
@@ -18,9 +17,6 @@ const User = db.define("user", {
   },
   email: {
     type: Sequelize.STRING,
-  },
-  userID: {
-    type: Sequelize.INTEGER,
   },
   securityLevel: {
     type: Sequelize.STRING,

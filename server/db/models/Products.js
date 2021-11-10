@@ -14,9 +14,6 @@ const Product = db.define("product", {
   imageUrl: {
     type: Sequelize.STRING,
   },
-  productId: {
-    type: Sequelize.INTEGER,
-  },
 });
 
 module.exports = Product;
