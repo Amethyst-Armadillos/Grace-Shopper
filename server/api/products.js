@@ -10,10 +10,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:securityLevel/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
-    const deleteProduct = await Product.destroy({ where: { id: productId } });
+    const securityLevel = req.params.securityLevel;
+    if (securityLevel === 'admin'){
+      const deleteProduct = await Product.destroy({ where: { id: productId } });
+    }
+
     const products = await Product.findAll();
     res.json(products);
   } catch (error) {
