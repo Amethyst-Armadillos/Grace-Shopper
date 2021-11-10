@@ -27,6 +27,7 @@ const User = db.define("user", {
   },
   securityLevel: {
     type: Sequelize.ENUM("admin", "customer"),
+    defaultValue: "customer",
   },
 });
 
