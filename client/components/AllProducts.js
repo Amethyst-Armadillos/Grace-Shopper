@@ -22,6 +22,7 @@ export const AllProducts = () => {
       </div>
     );
   });
+
   return <div>{mappedProducts}</div>;
 };
 
