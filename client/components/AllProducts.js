@@ -13,17 +13,15 @@ export const AllProducts = () => {
   const mappedProducts = data.map((product) => {
     return (
       <div key={product.id}>
-        <p>Name: {product.name}</p>
-        <p>Price: {product.price}</p>
-        <p>Stock: {product.stock}</p>
         <Link to={`/products/${product.id}`}>
-          <button>View Product</button>
+          <p>Name: {product.name}</p>
+          <p>Price: {product.price}</p>
+          <p>Stock: {product.stock}</p>
         </Link>
         <button>Add to Cart</button>
       </div>
     );
   });
-
   return <div>{mappedProducts}</div>;
 };
 
