@@ -19,7 +19,8 @@ const Product = db.define("product", {
   },
   imageUrl: {
     type: Sequelize.STRING,
-  }
+  },
+
 });
 
 module.exports = Product;
