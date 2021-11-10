@@ -5,21 +5,21 @@ const Product = db.define("product", {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-    validate: {notEmpty: true}
+    validate: { notEmpty: true },
   },
   price: {
     type: Sequelize.DECIMAL,
     allowNull: false,
-    validate: {min: 0}
+    validate: { min: 0 },
   },
   stock: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    validate: {min: 0},
+    validate: { min: 0 },
   },
   imageUrl: {
-    type: Sequelize.STRING,
-  }
+    type: Sequelize.TEXT,
+  },
 });
 
 module.exports = Product;
