@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 
 import axios from "axios";
 
@@ -12,17 +11,18 @@ export const SingleProduct = (props) => {
     });
   }, []);
 
-
   return (
     <div>
       <div>Product name: {Product.name}</div>
       <div>Product price: {Product.price}</div>
       <div>Product stock: {Product.stock}</div>
-      <div>Product imageUrl: {Product.imageUrl}</div>
+      <div>
+        Product imageUrl:
+        <img src={Product.imageUrl} />
+      </div>
       hello
     </div>
   );
 };
 
-
-export default connect()(SingleProduct);
+export default SingleProduct;
