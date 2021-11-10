@@ -19,6 +19,7 @@ export const SingleProduct = (props) => {
       <div>
         Product imageUrl:
         <img src={Product.imageUrl} />
+        <button type='button'>Delete Object</button>
       </div>
       hello
     </div>
