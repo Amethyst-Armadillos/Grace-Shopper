@@ -40,6 +40,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+//is this for the cart? who made this one below?
 router.put("/:id", async (req, res, next) => {
   try {
     let params = req.params.id.split(",");
@@ -50,6 +51,19 @@ router.put("/:id", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
+
+})
+
+router.put("/:securityLevel/:Id", async (req, res, next) => {
+  try{
+    if(req.params.securityLevel === "admin"){
+    const product = await Product.findByPk(req.params.Id);
+    res.send(await product.update(req.body));
+    }
+  } catch(error) {
+    next(error)
+  }
+})
+
 
 module.exports = router;
