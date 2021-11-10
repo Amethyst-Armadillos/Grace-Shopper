@@ -49,60 +49,57 @@ async function seed() {
 
   const products = await Promise.all([
     Product.create({
-      name: "nine-banded armadillo",
-      price: 199.99,
+      name: "Rainbow Tulips",
+      price: 39.99,
       stock: 50,
       imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Nine-banded_armadillo.jpg/220px-Nine-banded_armadillo.jpg",
+        "https://fyf.tac-cdn.net/images/products/large/F-395.jpg?auto=webp&quality=80&width=590",
     }),
     Product.create({
-      name: "seven-banded armadillo",
-      price: 199.99,
+      name: "Long Stemmed Roses",
+      price: 39.99,
       stock: 50,
       imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Dasypus_septemcinctus_hybridus_%28also_named_Dasypus_hybridus%29%2C_at_Valizas%2C_Uruguay.jpg/440px-Dasypus_septemcinctus_hybridus_%28also_named_Dasypus_hybridus%29%2C_at_Valizas%2C_Uruguay.jpg",
+        "https://fyf.tac-cdn.net/images/products/large/F-208_VR.jpg?auto=webp&quality=80&width=590",
     }),
     Product.create({
-      name: "Southern long-nosed armadillo",
-      price: 149.99,
+      name: "Emo Roses",
+      price: 0.99,
+      stock: 5307,
+      imageUrl:
+        "https://media.istockphoto.com/photos/dried-wilted-bouquet-of-red-roses-picture-id922951238?k=20&m=922951238&s=612x612&w=0&h=aTz9cFb9N5rYUTzDQ7Yo-6HGzazAtaM9G602ouVtfLU=",
+    }),
+    Product.create({
+      name: "BumbleBee Lilies, Roses, and Palms",
+      price: 29.99,
       stock: 50,
       imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Dasypus_hybridus_-_Museo_Civico_di_Storia_Naturale_Giacomo_Doria_-_Genoa%2C_Italy_-_DSC03055.JPG/440px-Dasypus_hybridus_-_Museo_Civico_di_Storia_Naturale_Giacomo_Doria_-_Genoa%2C_Italy_-_DSC03055.JPG",
+        "https://fyf.tac-cdn.net/images/products/large/F-193.jpg?auto=webp&quality=80&width=590",
     }),
     Product.create({
-      name: "tiger",
-      price: 800.5,
-      stock: 15,
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tiger_%28Panthera_tigris%29_%28cropped%29.jpg/220px-Tiger_%28Panthera_tigris%29_%28cropped%29.jpg",
+      name: "The Firecracker",
+      price: 69.99,
+      stock: 50,
+      imageUrl: "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Fall%202021/The%20Firecracker/The%20Firecracker/Firecracker_Carousel.jpg"
     }),
     Product.create({
-      name: "lion",
-      price: 1555.68,
-      stock: 7,
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Tiger_%28Panthera_tigris%29_%28cropped%29.jpg/220px-Tiger_%28Panthera_tigris%29_%28cropped%29.jpg",
+      name: "Elegant Beauty",
+      price: 74.99,
+      stock: 50,
+      imageUrl: "https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/142185lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}",
     }),
     Product.create({
-      name: "elephant",
-      price: 808.15,
-      stock: 5,
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/African_elephant_%28Loxodonta_africana%29_%28cropped%29.jpg/220px-African_elephant_%28Loxodonta_africana%29_%28cropped%29.jpg",
-    }),
-    Product.create({
-      name: "giraffe",
-      price: 1500,
-      stock: 9,
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/African_elephant_%28Loxodonta_africana%29_%28cropped%29.jpg/220px-African_elephant_%28Loxodonta_africana%29_%28cropped%29.jpg",
-    }),
-    Product.create({
-      name: "zebra",
-      price: 800,
+      name: "The Magician",
+      price: 89.99,
       stock: 10,
-      imageUrl: "http://www.shutterstock.com/gallery-484132p1.html",
+      imageUrl: "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/The%20Luna/Luna_Premium_5439.jpg",
     }),
+    Product.create({
+      name: "Luna",
+      price: 99.99,
+      stock: 5,
+      imageUrl: "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Morello/New/Morello_Carousel_New.jpg"
+    })
   ]);
 
   console.log(`seeded ${users.length} users`);
