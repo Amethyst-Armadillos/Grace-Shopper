@@ -80,26 +80,30 @@ async function seed() {
       name: "The Firecracker",
       price: 69.99,
       stock: 50,
-      imageUrl: "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Fall%202021/The%20Firecracker/The%20Firecracker/Firecracker_Carousel.jpg"
+      imageUrl:
+        "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Fall%202021/The%20Firecracker/The%20Firecracker/Firecracker_Carousel.jpg",
     }),
     Product.create({
       name: "Elegant Beauty",
       price: 74.99,
       stock: 50,
-      imageUrl: "https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/142185lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}",
+      imageUrl:
+        "https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/142185lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}",
     }),
     Product.create({
       name: "The Magician",
       price: 89.99,
       stock: 10,
-      imageUrl: "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/The%20Luna/Luna_Premium_5439.jpg",
+      imageUrl:
+        "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/The%20Luna/Luna_Premium_5439.jpg",
     }),
     Product.create({
       name: "Luna",
       price: 99.99,
       stock: 5,
-      imageUrl: "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Morello/New/Morello_Carousel_New.jpg"
-    })
+      imageUrl:
+        "https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Morello/New/Morello_Carousel_New.jpg",
+    }),
   ]);
 
   console.log(`seeded ${users.length} users`);

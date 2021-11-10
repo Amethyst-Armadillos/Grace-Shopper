@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
-
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 export const SingleProduct = (props) => {
   const [Product, setData] = useState("");
+
+  const securityLevel = useSelector((state) =>
+    state.auth ? state.auth.securityLevel : "customer"
+  );
+
+  const isAdmin = securityLevel === "admin";
 
   useEffect(() => {
     axios.get(`/api/products/${props.match.params.id}`).then((response) => {
@@ -19,8 +25,8 @@ export const SingleProduct = (props) => {
       <div>
         Product imageUrl:
         <img src={Product.imageUrl} />
-        <button type='button'>Delete Object</button>
       </div>
+      {isAdmin && <button type='button'>Delete Object</button>}
       hello
     </div>
   );
