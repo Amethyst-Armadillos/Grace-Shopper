@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import {connect, useSelector} from 'react-redux'
-
+import { connect, useSelector } from "react-redux";
 
 export const AllProducts = (props) => {
   const [data, setData] = useState([]);
@@ -12,14 +11,11 @@ export const AllProducts = (props) => {
     });
   }, []);
 
-  const userId = useSelector(state => state.auth.id);
+  const userId = useSelector((state) => state.auth.id);
 
-  const handleCart = function(id){
-  console.log(id)
-
-  console.log(userId)
-  axios.put(`/api/products/${[id, userId]}`)
-  }
+  const handleCart = function (id) {
+    axios.put(`/api/products/${[id, userId]}`);
+  };
 
   const mappedProducts = data.map((product) => {
     return (
@@ -30,7 +26,13 @@ export const AllProducts = (props) => {
         <img src={product.imageUrl} />
       </div>
         </Link>
-        <button id="addCart" type="button" onClick={() => handleCart(product.id)}>Add to Cart</button>
+        <button
+          id="addCart"
+          type="button"
+          onClick={() => handleCart(product.id)}
+        >
+          Add to Cart
+        </button>
       </div>
     );
   });
@@ -38,10 +40,10 @@ export const AllProducts = (props) => {
   return <div>{mappedProducts}</div>;
 };
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    userId: state.auth.id
-  }
-}
+    userId: state.auth.id,
+  };
+};
 
 export default AllProducts;

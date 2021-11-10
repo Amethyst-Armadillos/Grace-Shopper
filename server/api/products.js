@@ -1,7 +1,4 @@
-
-
-
-const Product = require("../db/models/Products")
+const Product = require("../db/models/Products");
 const {
   models: { User },
 } = require("../db");
@@ -10,8 +7,8 @@ const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    console.log(Object.keys(User.prototype))
-    console.log()
+    console.log(Object.keys(User.prototype));
+    console.log();
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -23,7 +20,7 @@ router.delete("/:securityLevel/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
     const securityLevel = req.params.securityLevel;
-    if (securityLevel === 'admin'){
+    if (securityLevel === "admin") {
       const deleteProduct = await Product.destroy({ where: { id: productId } });
     }
 
@@ -45,18 +42,16 @@ router.get("/:id", async (req, res, next) => {
 
 //is this for the cart? who made this one below?
 router.put("/:id", async (req, res, next) => {
-
   try {
-    let params = req.params.id.split(',')
-    let user = await User.findByPk(params[1])
-    let product = await Product.findByPk(params[0])
-    console.log(user, product)
+    let params = req.params.id.split(",");
+    let user = await User.findByPk(params[1]);
+    let product = await Product.findByPk(params[0]);
 
-    user.addProduct(product)
-
+    user.addProduct(product);
   } catch (error) {
-    next(error)
+    next(error);
   }
+
 })
 
 router.put("/:securityLevel/:Id", async (req, res, next) => {
@@ -69,7 +64,6 @@ router.put("/:securityLevel/:Id", async (req, res, next) => {
     next(error)
   }
 })
-
 
 
 module.exports = router;
