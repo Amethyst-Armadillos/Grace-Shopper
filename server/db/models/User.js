@@ -14,12 +14,19 @@ const User = db.define("user", {
   },
   password: {
     type: Sequelize.STRING,
+    validate: {
+      len: {
+        args: [6, 42],
+      },
+    },
   },
   email: {
     type: Sequelize.STRING,
+
+    unique: true,
   },
   securityLevel: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM('admin', 'customer')
   },
 });
 
