@@ -25,9 +25,10 @@ export const AllProducts = (props) => {
     return (
       <div key={product.id}>
         <Link to={`/products/${product.id}`}>
-          <p>Name: {product.name}</p>
-          <p>Price: {product.price}</p>
-          <p>Stock: {product.stock}</p>
+          <p>{product.name}</p>
+          <div>
+        <img src={product.imageUrl} />
+      </div>
         </Link>
         <button id="addCart" type="button" onClick={() => handleCart(product.id)}>Add to Cart</button>
       </div>
