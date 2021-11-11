@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 export const AllProducts = (props) => {
   const [data, setData] = useState([]);
@@ -22,12 +23,13 @@ export const AllProducts = (props) => {
 
   const mappedProducts = data.map((product) => {
     return (
-      <div key={product.id}>
+      <motion.div className='product-preview' key={product.id}>
         <Link to={`/products/${product.id}`}>
-          <p>Name: {product.name}</p>
-          <p>Price: {product.price}</p>
-          <p>Stock: {product.stock}</p>
-          <img src={product.imageUrl} alt={product.name} />
+          <img
+            className='preview-image'
+            src={product.imageUrl}
+            alt={product.name}
+          />
         </Link>
         <button
           id='addCart'
@@ -36,11 +38,11 @@ export const AllProducts = (props) => {
         >
           Add to Cart
         </button>
-      </div>
+      </motion.div>
     );
   });
 
-  return <div>{mappedProducts}</div>;
+  return <div className='all-products-container'>{mappedProducts}</div>;
 };
 
 const mapState = (state) => {

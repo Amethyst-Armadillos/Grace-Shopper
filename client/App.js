@@ -5,10 +5,8 @@ import Navbar from "./components/Navbar";
 import Routes from "./Routes";
 
 const App = () => {
-  const [secLevel, setSecLevel] = useState("customer");
-
   return (
-    <div>
+    <div className='app'>
       <Navbar />
       <Routes />
     </div>
