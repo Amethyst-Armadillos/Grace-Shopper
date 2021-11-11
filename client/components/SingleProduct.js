@@ -32,17 +32,22 @@ export const SingleProduct = (props) => {
   };
 
   return (
-    <div>
-      <div>Product name: {Product.name}</div>
-      <div>Product price: {Product.price}</div>
-      <div>Product stock: {Product.stock}</div>
-      <div>
-        Product imageUrl:
-        <img src={Product.imageUrl} />
-        <button onClick={() => handleCart(Product.id)}>Add to cart</button>
+    <div className='container'>
+      <div className='single-product-container'>
+        <div>Product name: {Product.name}</div>
+        <div>Product price: {Product.price}</div>
+        <div>Product stock: {Product.stock}</div>
+        <div>
+          <img className='single-image' src={Product.imageUrl} />
+          <button onClick={() => handleCart(Product.id)}>Add to cart</button>
+        </div>
+        {isAdmin && (
+          <button type='button' onClick={handleDelete}>
+            Delete Object
+          </button>
+        )}
+        hello
       </div>
-      {isAdmin && <button type='button' onClick = {handleDelete}>Delete Object</button>}
-      hello
     </div>
   );
 };
