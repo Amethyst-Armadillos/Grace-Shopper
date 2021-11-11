@@ -25,11 +25,11 @@ export const Cart = () => {
 
   let mappedCart;
 
-  if (cart) {
-    mappedCart = cart.map((product) => {
+  if (cart.products) {
+    mappedCart = cart.products.map((product) => {
       return (
         <div key={product.id}>
-          <p>{product.name}</p>
+          <p>Product: {product.name}</p>
           <p>Price: {product.price}</p>
           Qty:
           <select>
@@ -41,24 +41,14 @@ export const Cart = () => {
   }
 
   return (
-    <div className="cart-container">
-      <div className="cart-header">
-        <h3 className="cart-title">Shopping Cart</h3>
-        <h5 className="cart-action">Remove all</h5>
-      </div>
-
+    <div>
+      <h1>Cart</h1>
       <div>{mappedCart}</div>
-      <h2>total</h2>
       <button>
-        <h3>Purchase</h3>
+        <h3>Checkout</h3>
       </button>
     </div>
   );
 };
 
 export default Cart;
-
-// //<div class=”Header”>
-//  <h3 class=”Heading”>Shopping Cart</h3>
-//  <h5 class=”Action”>Remove all</h5>
-//  </div>
