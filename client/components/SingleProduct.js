@@ -37,16 +37,13 @@ export const SingleProduct = (props) => {
         <div>Product name: {Product.name}</div>
         <div>Product price: {Product.price}</div>
         <div>Product stock: {Product.stock}</div>
-        <div>
-          <img className='single-image' src={Product.imageUrl} />
-          <button onClick={() => handleCart(Product.id)}>Add to cart</button>
-        </div>
+        <img className='single-image' src={Product.imageUrl} />
+        <button onClick={() => handleCart(Product.id)}>Add to cart</button>
         {isAdmin && (
           <button type='button' onClick={handleDelete}>
             Delete Object
           </button>
         )}
-        hello
       </div>
     </div>
   );
