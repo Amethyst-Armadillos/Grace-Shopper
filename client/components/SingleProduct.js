@@ -35,8 +35,6 @@ export const SingleProduct = (props) => {
     <div className='container'>
       <div className='single-product-container'>
         <div>{Product.name}</div>
-        <div>Product price: {Product.price}</div>
-        <div>Product stock: {Product.stock}</div>
         <div>{Product.price}</div>
         <img className='single-image' src={Product.imageUrl} />
         <button onClick={() => handleCart(Product.id)}>Add to cart</button>
