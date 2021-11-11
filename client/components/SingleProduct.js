@@ -34,7 +34,7 @@ export const SingleProduct = (props) => {
   return (
     <div className='container'>
       <div className='single-product-container'>
-        <div>Product name: {Product.name}</div>
+        <div>{Product.name}</div>
         <div>Product price: {Product.price}</div>
         <div>Product stock: {Product.stock}</div>
         <img className='single-image' src={Product.imageUrl} />
