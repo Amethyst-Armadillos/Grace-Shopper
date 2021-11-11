@@ -6,29 +6,41 @@ const axios = require("axios");
 const Cart = require("./Cart");
 
 const SALT_ROUNDS = 5;
+const ADMIN = "admin";
+const CUSTOMER = "customer";
 
 const User = db.define("user", {
   username: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   password: {
     type: Sequelize.STRING,
+    allowNull: false,
     validate: {
       len: {
         args: [6, 42],
       },
+      notEmpty: true,
     },
   },
   email: {
     type: Sequelize.STRING,
-
     unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   securityLevel: {
-    type: Sequelize.ENUM("admin", "customer"),
-    defaultValue: "customer",
+    type: Sequelize.ENUM(ADMIN, CUSTOMER),
+    defaultValue: CUSTOMER,
+    validate: {
+      notEmpty: true,
+    },
   },
 });
 
