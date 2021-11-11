@@ -26,6 +26,11 @@ export const SingleProduct = (props) => {
     axios.put(`/api/products/${[id, userId, 1]}`);
   };
 
+  const handleDelete = (e) => {
+    axios.delete(`/api/products/${props.match.params.id}`);
+    window.open("/");
+  };
+
   return (
     <div>
       <div>Product name: {Product.name}</div>
@@ -36,7 +41,7 @@ export const SingleProduct = (props) => {
         <img src={Product.imageUrl} />
         <button onClick={() => handleCart(Product.id)}>Add to cart</button>
       </div>
-      {isAdmin && <button type='button'>Delete Object</button>}
+      {isAdmin && <button type='button' onClick = {handleDelete}>Delete Object</button>}
       hello
     </div>
   );

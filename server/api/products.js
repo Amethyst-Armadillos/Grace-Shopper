@@ -15,14 +15,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:securityLevel/:id", async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
-    const securityLevel = req.params.securityLevel;
-    if (securityLevel === "admin") {
-      const deleteProduct = await Product.destroy({ where: { id: productId } });
-    }
-
+    const deleteProduct = await Product.destroy({ where: { id: productId } });
     const products = await Product.findAll();
     res.json(products);
   } catch (error) {
@@ -70,12 +66,10 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/:securityLevel/:Id", async (req, res, next) => {
+router.put("/update/:Id", async (req, res, next) => {
   try {
-    if (req.params.securityLevel === "admin") {
-      const product = await Product.findByPk(req.params.Id);
-      res.send(await product.update(req.body));
-    }
+    const product = await Product.findByPk(req.params.Id);
+    res.send(await product.update(req.body));
   } catch (error) {
     next(error);
   }
