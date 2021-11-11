@@ -8,7 +8,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     {isLoggedIn ? (
       <div className='nav-bar'>
         {/* The navbar will show these links after you log in */}
-        <img src='./flowerlogo.png' className='navlogo' />
+        <img src='/flowerlogo.png' className='navlogo' />
         <Link to='/home'>Home</Link>
         <Link to='/products'>Products</Link>
         <Link to='/cart'>Cart</Link>
@@ -22,6 +22,8 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <img src='./flowerlogo.png' className='navlogo' />
         <Link to='/login'>Login</Link>
         <Link to='/signup'>Sign Up</Link>
+        <Link to='/products'>Products</Link>
+        <Link to='/cart'>Cart</Link>
       </div>
     )}
   </nav>

@@ -23,7 +23,13 @@ export const AllProducts = (props) => {
 
   const mappedProducts = data.map((product) => {
     return (
-      <motion.div className='product-preview' key={product.id}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className='product-preview'
+        key={product.id}
+      >
         <Link to={`/products/${product.id}`}>
           <img
             className='preview-image'
