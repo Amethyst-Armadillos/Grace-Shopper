@@ -17,61 +17,27 @@ export const SingleProduct = (props) => {
     });
   }, []);
 
-  const handleDelete = (e) => {
-    axios.delete(`/api/products/${securityLevel}/${props.match.params.id}`);
-    window.open("/");
-  };
+  const userId = useSelector((state) => state.auth.id);
 
-  const handleEdits = (e) => {
-    axios.put(`/api/products/${securityLevel}/${props.match.params.id}`);
-  };
+  const handleCart = function (id) {
+    console.log(id);
 
-  const handleSubmit = (e) => {};
+    console.log(userId);
+    axios.put(`/api/products/${[id, userId, 1]}`);
+  };
 
   return (
     <div>
-      <div>{Product.name}</div>
-      <div>${Product.price}</div>
-      <div>Quantity Available: {Product.stock} bouquets</div>
+      <div>Product name: {Product.name}</div>
+      <div>Product price: {Product.price}</div>
+      <div>Product stock: {Product.stock}</div>
       <div>
+        Product imageUrl:
         <img src={Product.imageUrl} />
+        <button onClick={() => handleCart(Product.id)}>Add to cart</button>
       </div>
-      {isAdmin && (
-        <button onClick={handleDelete} type="button">
-          Remove from Site
-        </button>
-      )}
-
-      {isAdmin && (
-        <form>
-          <label>Price:</label>
-
-          <input
-            value={"$" + Product.price}
-            type="text"
-            name="name"
-            onChange={handleEdits}
-          />
-
-          <label>Quantity:</label>
-          <input
-            value={Product.stock}
-            type="text"
-            name="name"
-            onChange={handleEdits}
-          />
-
-          <label>ImageUrl:</label>
-          <input
-            value={Product.imageUrl}
-            type="text"
-            name="name"
-            onChange={handleEdits}
-          />
-
-          <button type="submit">Submit</button>
-        </form>
-      )}
+      {isAdmin && <button type='button'>Delete Object</button>}
+      hello
     </div>
   );
 };

@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product },
+  models: { User, Product, Cart },
 } = require("../server/db");
 
 /**
@@ -106,8 +106,13 @@ async function seed() {
     }),
   ]);
 
+  for (let i = 0; i < users.length; i++) {
+    await users[i].setCart(await Cart.create());
+  }
+
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);
+
   return {
     users: {
       cody: users[0],

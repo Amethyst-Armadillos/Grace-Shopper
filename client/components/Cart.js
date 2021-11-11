@@ -8,9 +8,19 @@ export const Cart = () => {
   const userId = useSelector((state) => state.auth.id);
 
   useEffect(() => {
-    axios.get(`/api/users/${userId}`).then((response) => {
+    axios.get(`/api/cart/${userId}`).then((response) => {
       setCart(response.data);
+      console.log("response data", response.data);
     });
+    //console.log(cart);
+    // async function fetchData() {
+    //   return await axios.get(`/api/cart/${userId}`);
+    // }
+    // const cartItems = fetchData();
+    // console.log(cartItems);
+    // setCart(cartItems.PromiseResult.data);
+
+    //console.log(cart);
   }, []);
 
   let mappedCart;
