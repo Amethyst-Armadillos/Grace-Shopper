@@ -8,7 +8,7 @@ const Product = db.define("product", {
     validate: { notEmpty: true },
   },
   price: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.DECIMAL(10, 2),
     allowNull: false,
     validate: { min: 0 },
   },
@@ -19,6 +19,8 @@ const Product = db.define("product", {
   },
   imageUrl: {
     type: Sequelize.TEXT,
+    defaultValue:
+      "https://images.unsplash.com/photo-1585157603209-378be66bede1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=912&q=80",
   },
 });
 
