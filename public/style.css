@@ -51,7 +51,7 @@ header {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   background-color: aliceblue;
   padding: 7.5%;
@@ -67,9 +67,12 @@ header {
   display: flex;
   background-color: lightgray;
   padding: 1em;
+  min-height: 249px;
   max-height: 250px;
   max-width: 250px;
-  flex-direction: row;
+  flex-direction: column;
+  border-radius: 20px;
+  margin: 1em;
 }
 
 .single-product-container {
@@ -81,6 +84,7 @@ header {
 
   max-height: 500px;
   max-width: 500px;
+  border-radius: 15px;
 }
 
 .single-image {
