@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: { User },
+  models: { User, Cart, CartItem },
 } = require("../db");
 const Product = require("../db/models/Products");
 module.exports = router;
@@ -12,6 +12,7 @@ router.get("/", async (req, res, next) => {
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       attributes: ["id", "username"],
+      include: Cart,
     });
     res.json(users);
   } catch (err) {
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res, next) => {
     let user = await User.findAll({
       where: { id: req.params.id },
       attributes: ["id", "username", "email", "securityLevel"],
-      include: [{ model: Product }],
+      include: [{ model: Cart }],
     });
     res.send(user[0]);
   } catch (err) {

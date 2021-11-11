@@ -1,14 +1,13 @@
 const Product = require("../db/models/Products");
 const {
-  models: { User },
+  models: { User, CartItem, Cart },
 } = require("../db");
 
 const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    console.log(Object.keys(User.prototype));
-    console.log();
+    //console.log(Object.keys(User.prototype));
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -40,30 +39,46 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-//is this for the cart? who made this one below?
+//Adds product to cart, first arg is product id, second is user id, third is quantity
 router.put("/:id", async (req, res, next) => {
   try {
     let params = req.params.id.split(",");
     let user = await User.findByPk(params[1]);
     let product = await Product.findByPk(params[0]);
-
-    user.addProduct(product);
+    let quantity = params[2];
+    let cart = await user.getCart();
+    let previousItems = await cart.getCartItems();
+    for (let i = 0; i < previousItems.length; i++) {
+      if (previousItems[i].productId === product.id) {
+        let newQuantity =
+          parseInt(previousItems[i].quantity) + parseInt(quantity);
+        await previousItems[i].update({ quantity: newQuantity });
+        return res.send(previousItems[i]);
+      }
+    }
+    let cartItem = await CartItem.create({
+      quantity,
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    });
+    cart.addCartItem(cartItem);
+    res.send(cart);
   } catch (error) {
     next(error);
   }
-
-})
+});
 
 router.put("/:securityLevel/:Id", async (req, res, next) => {
-  try{
-    if(req.params.securityLevel === "admin"){
-    const product = await Product.findByPk(req.params.Id);
-    res.send(await product.update(req.body));
+  try {
+    if (req.params.securityLevel === "admin") {
+      const product = await Product.findByPk(req.params.Id);
+      res.send(await product.update(req.body));
     }
-  } catch(error) {
-    next(error)
+  } catch (error) {
+    next(error);
   }
-})
-
+});
 
 module.exports = router;

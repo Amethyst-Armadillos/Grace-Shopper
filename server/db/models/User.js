@@ -3,6 +3,7 @@ const db = require("../db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
+const Cart = require("./Cart");
 
 const SALT_ROUNDS = 5;
 
