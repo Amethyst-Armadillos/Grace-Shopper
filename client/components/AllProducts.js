@@ -8,7 +8,7 @@ import Cart from "./Cart"
 
 export const AllProducts = (props) => {
   const [data, setData] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([JSON.parse(localStorage.getItem('cart')]);
 
 
 
@@ -16,7 +16,7 @@ export const AllProducts = (props) => {
     axios.get(`/api/products`).then((response) => {
       setData(response.data);
     });
-  }, [cart]);
+  }, []);
 console.log(data, 'hajdasdashdas')
   const userId = useSelector(state => state.auth.id);
 
@@ -27,11 +27,19 @@ console.log(data, 'hajdasdashdas')
   if(userId){
   axios.put(`/api/products/${[id, userId]}`)
   }else{
-
+    if(cart.length < 1){
       axios.get(`/api/products/${id}`).then((response) => {
        cart.push(response.data)
+       setCart(JSON.parse(localStorage.getItem('cart')))
         localStorage.setItem(`cart`, JSON.stringify(cart) )
       });
+    }else{
+      console.log('in else')
+      axios.get(`/api/products/${id}`).then((response) => {
+        cart.push(response.data)
+        localStorage.setItem(`cart`, JSON.stringify(cart) )
+      })
+    }
     }
 
   }
