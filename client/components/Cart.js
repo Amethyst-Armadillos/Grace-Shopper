@@ -8,11 +8,20 @@ export const Cart = () => {
   const userId = useSelector((state) => state.auth.id);
 
   useEffect(() => {
-    axios.get(`/api/cart/${userId}`).then((response) => {
-      setCart(response.data);
-      console.log("response data", response.data);
-    });
-    //console.log(cart);
+    if(userId){
+
+      axios.get(`/api/cart/${userId}`).then((response) => {
+        setCart(response.data);
+        console.log("response data", response.data);
+      });
+    }else{
+    axios.get(`/api/cart`).then((response) => {
+      console.log(response, 'wooooooghoooooo')
+      setCart(response.data)
+    })
+  }
+
+      //console.log(cart);
     // async function fetchData() {
     //   return await axios.get(`/api/cart/${userId}`);
     // }

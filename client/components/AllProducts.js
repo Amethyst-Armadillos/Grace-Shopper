@@ -14,11 +14,23 @@ export const AllProducts = (props) => {
 
   const userId = useSelector((state) => state.auth.id);
 
-  const handleCart = function (id) {
+  const handleCart = async function (id) {
     //console.log(id);
 
     //console.log(userId);
-    axios.put(`/api/products/${[id, userId, 1]}`);
+    if(userId){
+
+      axios.put(`/api/products/${[id, userId, 1]}`);
+    }else{
+      // console.log('inhereeer')
+      await axios.put(`/api/products/${[id, null , 1]}`).then((response) => {
+        console.log(response, 'item added to cart')
+      })
+
+      // await axios.get(`/api/products/${id}`).then((response) => {
+      //   console.log(response.data, 'yuupypypypp1')
+      // })
+    }
   };
 
   const mappedProducts = data.map((product) => {
