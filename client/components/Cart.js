@@ -6,7 +6,7 @@ export const Cart = () => {
   const [cart, setCart] = useState([]);
 
   const userId = useSelector((state) => state.auth.id);
-
+//the below checks to see if a user is logged in.  If so, it returns their user-specific cart. Otherwise, it returns the cart currently assigned to "guest".
   useEffect(() => {
     if (userId) {
       axios.get(`/api/cart/${userId}`).then((response) => {
@@ -31,6 +31,15 @@ export const Cart = () => {
     //console.log(cart);
   }, []);
 
+  const decrementCount = (e) => {
+    axios.put('/api/cart/1/6', {quantity:200});
+  };
+
+  const incrementCount = function (cartId, productId) {
+    axios.put(`/api/cart/${cartId}/${productId}`, {quantity:100000});
+    };
+
+
   let mappedCart;
 
   if (cart) {
@@ -44,9 +53,9 @@ export const Cart = () => {
             <h1 className="title">{product.name}</h1>
           </div>
           <div className="cart-counter">
-            <div className="cart-counter-btn">-</div>
+            <button className="cart-counter-btn" onClick ={() => decrementCount()} >-</button>
             <div className="cart-count">{product.quantity}</div>
-            <div className="cart-counter-btn">+</div>
+            <button className="cart-counter-btn" onClick ={() => incrementCount(product.cartId,product.productId)} >+</button>
           </div>
           <div className="cart-prices">
             <div className="cart-amount">${product.price}</div>
