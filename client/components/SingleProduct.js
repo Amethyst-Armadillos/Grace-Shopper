@@ -13,7 +13,6 @@ export const SingleProduct = (props) => {
 
   useEffect(() => {
     axios.get(`/api/products/${props.match.params.id}`).then((response) => {
-      console.log(response);
       setData(response.data);
     });
   }, []);
@@ -21,9 +20,6 @@ export const SingleProduct = (props) => {
   const userId = useSelector((state) => state.auth.id);
 
   const handleCart = function (id) {
-    console.log(id);
-
-    console.log(userId);
     axios.put(`/api/products/${[id, userId, 1]}`);
   };
 

@@ -7,7 +7,6 @@ const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    //console.log(Object.keys(User.prototype));
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -28,7 +27,6 @@ router.delete("/:id", async (req, res, next) => {
 
 router.get("/guest", async (req, res, next) => {
   let cartProduct = await CartItem.findAll({ where: { cartId: null } });
-  console.log(cartProduct, "AHDASJJDAKSDKASJDLASJDKLASJDKLASJDAKLDJAKS");
   res.send(cartProduct);
 });
 
@@ -48,7 +46,6 @@ router.put("/:id", async (req, res, next) => {
     let product = await Product.findByPk(params[0]);
     let quantity = params[2];
     if (params[1] !== "") {
-      //console.log(params, 'adhaajsadshasdjkasdjkdalsjkasdjaskdjasdkadsjkjasdkjasdkjaksdjaksdjasdjkadsjasdjasdjasdjasdjjasdjasdjasdjadsjasd******************************   **** * * * * * * * * ** * * ** * *')
       let user = await User.findByPk(params[1]);
       let cart = await user.getCart();
       let previousItems = await cart.getCartItems();
