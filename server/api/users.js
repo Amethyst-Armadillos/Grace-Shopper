@@ -11,7 +11,7 @@ router.get("/", async (req, res, next) => {
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
-      attributes: ["id", "username"],
+      attributes: ["id", "username", "securityLevel", "email"],
       include: Cart,
     });
     res.json(users);
@@ -31,4 +31,12 @@ router.get("/:id", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+router.delete("/:id", (req, res, next) => {
+  User.destroy({
+    where: { id: req.params.id },
+  })
+    .then(() => res.sendStatus(204))
+    .catch(next);
 });
