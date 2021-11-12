@@ -177,21 +177,21 @@ header {
   align-items: center;
   font-size: 20px;
   font-weight: 900;
-  color: #202020;
+  color: black;
   cursor: pointer;
  }
 
  .cart-count{
   font-size: 20px;
   font-weight: 900;
-  color: #202020;
+  color: white;
  }
 
  .cart-amount{
   padding-top: 20px;
   font-size: 20px;
   font-weight: 800;
-  color: #202020;
+  color: white;
  }
 
  .cart-remove{
@@ -217,7 +217,7 @@ header {
  .subtotal{
   font-size: 22px;
   font-weight: 700;
-  color: #202020;
+  color: black;
  }
 
  .items{
@@ -229,7 +229,6 @@ header {
 
  .total-amount{
   font-size: 36px;
-  font-family: ‘Open Sans’;
   font-weight: 900;
   color: #202020;
  }

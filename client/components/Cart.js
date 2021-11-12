@@ -49,7 +49,7 @@ export const Cart = () => {
             <div className="cart-counter-btn">+</div>
           </div>
           <div className="cart-prices">
-            <div className="cart-amount">{product.price}</div>
+            <div className="cart-amount">${product.price}</div>
             <div className="cart-remove">Remove</div>
           </div>
         </div>
