@@ -7,6 +7,10 @@ import { me } from "./store";
 import AllProducts from "./components/AllProducts";
 import SingleProduct from "./components/SingleProduct";
 import Cart from "./components/Cart";
+import { UserInfo } from "./components/UserInfo";
+import { EditUser } from "./components/EditUser";
+import { EditProduct } from "./components/EditProduct";
+import { NewProduct } from "./components/NewProduct";
 
 /**
  * COMPONENT
@@ -23,20 +27,24 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/home" exact component={Home} />
-            <Route exact path="/products" component={AllProducts} />
-            <Route exact path="/products/:id" component={SingleProduct} />
-            <Route exact path="/cart" component={Cart} />
-            <Redirect to="/home" />
+            <Route path='/home' exact component={Home} />
+            <Route exact path='/products' component={AllProducts} />
+            <Route exact path='/products/:id' component={SingleProduct} />
+            <Route exact path='/cart' component={Cart} />
+            <Route exact path='/userinfo' component={UserInfo} />
+            <Route exact path='/users/:id' component={EditUser} />
+            <Route exact path='/products/:id/edit' component={EditProduct} />
+            <Route exact path='/create/products' component={NewProduct} />
+            <Redirect to='/home' />
           </Switch>
         ) : (
           <Switch>
-            <Route path="/" exact component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route exact path="/products" component={AllProducts} />
-            <Route exact path="/products/:id" component={SingleProduct} />
-            <Route exact path="/cart" component={Cart} />
+            <Route path='/' exact component={Login} />
+            <Route path='/login' component={Login} />
+            <Route path='/signup' component={Signup} />
+            <Route exact path='/products' component={AllProducts} />
+            <Route exact path='/products/:id' component={SingleProduct} />
+            <Route exact path='/cart' component={Cart} />
           </Switch>
         )}
       </div>

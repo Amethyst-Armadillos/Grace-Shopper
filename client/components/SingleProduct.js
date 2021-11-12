@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export const SingleProduct = (props) => {
   const [Product, setData] = useState("");
@@ -13,7 +14,6 @@ export const SingleProduct = (props) => {
 
   useEffect(() => {
     axios.get(`/api/products/${props.match.params.id}`).then((response) => {
-      console.log(response);
       setData(response.data);
     });
   }, []);
@@ -40,9 +40,14 @@ export const SingleProduct = (props) => {
         <img className='single-image' src={Product.imageUrl} />
         <button onClick={() => handleCart(Product.id)}>Add to cart</button>
         {isAdmin && (
-          <button type='button' onClick={handleDelete}>
-            Delete Object
-          </button>
+          <div>
+            <Link to={`/products/${Product.id}/edit`}>
+              <button>Edit Product</button>
+            </Link>
+            <button type='button' onClick={handleDelete}>
+              Delete Object
+            </button>
+          </div>
         )}
       </div>
     </div>

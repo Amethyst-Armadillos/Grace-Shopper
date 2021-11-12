@@ -13,19 +13,21 @@ export const AllProducts = (props) => {
   }, []);
 
   const userId = useSelector((state) => state.auth.id);
+  const isAdmin = useSelector((state) => {
+    return state.auth.securityLevel === "admin";
+  });
 
   const handleCart = async function (id) {
     //console.log(id);
 
     //console.log(userId);
-    if(userId){
-
+    if (userId) {
       axios.put(`/api/products/${[id, userId, 1]}`);
-    }else{
+    } else {
       // console.log('inhereeer')
-      await axios.put(`/api/products/${[id, null , 1]}`).then((response) => {
-        console.log(response, 'item added to cart')
-      })
+      await axios.put(`/api/products/${[id, null, 1]}`).then((response) => {
+        console.log(response, "item added to cart");
+      });
 
       // await axios.get(`/api/products/${id}`).then((response) => {
       //   console.log(response.data, 'yuupypypypp1')
@@ -38,7 +40,7 @@ export const AllProducts = (props) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.2 }}
         className='product-preview'
         key={product.id}
       >
@@ -56,11 +58,23 @@ export const AllProducts = (props) => {
         >
           Add to Cart
         </button>
+        {isAdmin && (
+          <Link to={`/products/${product.id}/edit`}>
+            <button type='button'>Edit Product</button>
+          </Link>
+        )}
       </motion.div>
     );
   });
 
-  return <div className='all-products-container'>{mappedProducts}</div>;
+  return (
+    <div className='all-products-container'>
+      {mappedProducts}
+      <Link to='/create/products'>
+        <button>Add New Product</button>
+      </Link>
+    </div>
+  );
 };
 
 const mapState = (state) => {
