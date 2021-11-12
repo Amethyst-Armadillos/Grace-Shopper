@@ -5,8 +5,12 @@ import { useSelector } from "react-redux";
 export const Cart = () => {
   const [cart, setCart] = useState([]);
 
+
+//the below checks to see if a user is logged in.  If so, it returns their user-specific cart. Otherwise, it returns the cart currently assigned to "guest".
+
   const userId = localStorage.getItem('userId')
 console.log(userId)
+
 
   useEffect(() => {
     if (userId) {
@@ -25,6 +29,15 @@ console.log(userId)
 
   }, []);
 
+  const decrementCount = (e) => {
+    axios.put('/api/cart/1/6', {quantity:200});
+  };
+
+  const incrementCount = function (cartId, productId) {
+    axios.put(`/api/cart/${cartId}/${productId}`, {quantity:100000});
+    };
+
+
   let mappedCart;
 
   if (cart) {
@@ -38,9 +51,9 @@ console.log(userId)
             <h1 className="title">{product.name}</h1>
           </div>
           <div className="cart-counter">
-            <div className="cart-counter-btn">-</div>
+            <button className="cart-counter-btn" onClick ={() => decrementCount()} >-</button>
             <div className="cart-count">{product.quantity}</div>
-            <div className="cart-counter-btn">+</div>
+            <button className="cart-counter-btn" onClick ={() => incrementCount(product.cartId,product.productId)} >+</button>
           </div>
           <div className="cart-prices">
             <div className="cart-amount">${product.price}</div>
