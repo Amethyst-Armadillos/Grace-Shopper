@@ -10,6 +10,7 @@ import Cart from "./components/Cart";
 import { UserInfo } from "./components/UserInfo";
 import { EditUser } from "./components/EditUser";
 import { EditProduct } from "./components/EditProduct";
+import { NewProduct } from "./components/NewProduct";
 
 /**
  * COMPONENT
@@ -33,6 +34,7 @@ class Routes extends Component {
             <Route exact path='/userinfo' component={UserInfo} />
             <Route exact path='/users/:id' component={EditUser} />
             <Route exact path='/products/:id/edit' component={EditProduct} />
+            <Route exact path='/create/products' component={NewProduct} />
             <Redirect to='/home' />
           </Switch>
         ) : (

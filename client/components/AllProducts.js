@@ -67,7 +67,14 @@ export const AllProducts = (props) => {
     );
   });
 
-  return <div className='all-products-container'>{mappedProducts}</div>;
+  return (
+    <div className='all-products-container'>
+      {mappedProducts}
+      <Link to='/create/products'>
+        <button>Add New Product</button>
+      </Link>
+    </div>
+  );
 };
 
 const mapState = (state) => {

@@ -104,4 +104,13 @@ router.put("/edit/:id", async (req, res, next) => {
   }
 });
 
+router.post("/new", async (req, res, next) => {
+  try {
+    const product = await Product.create(req.body);
+    res.send(product);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
