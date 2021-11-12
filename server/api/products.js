@@ -26,12 +26,16 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+router.get("/guest", async (req, res, next) => {
+  let cartProduct = await CartItem.findAll({ where: { cartId: null } });
+  console.log(cartProduct, "AHDASJJDAKSDKASJDLASJDKLASJDKLASJDAKLDJAKS");
+  res.send(cartProduct);
+});
+
 router.get("/:id", async (req, res, next) => {
   try {
-    // let product = await Product.findByPk(req.params.id);
-    let cartProduct = await CartItem.findByPk(req.params.id);
-    console.log(cartProduct, "AHDASJJDAKSDKASJDLASJDKLASJDKLASJDAKLDJAKS");
-    res.send(cartProduct);
+    let product = await Product.findByPk(req.params.id);
+    res.send(product);
   } catch (error) {
     next(error);
   }
@@ -66,6 +70,16 @@ router.put("/:id", async (req, res, next) => {
       cart.addCartItem(cartItem);
       res.send(cart);
     } else {
+      let previousItems = await CartItem.findAll({ where: { cartId: null } });
+      for (let i = 0; i < previousItems.length; i++) {
+        if (previousItems[i].productId === product.id) {
+          let newQuantity =
+            parseInt(previousItems[i].quantity) + parseInt(quantity);
+          await previousItems[i].update({ quantity: newQuantity });
+          return res.send(previousItems[i]);
+        }
+      }
+
       let cartItem = await CartItem.create({
         quantity,
         productId: product.id,
