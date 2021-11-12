@@ -16,12 +16,7 @@ export const EditProduct = (props) => {
   const handleSubmit = (data) => {
     data.preventDefault();
     const id = props.match.params.id[0];
-    console.log(data.target.name.value);
-    //setProduct({ ...data });
-    //console.log(product);
-
     axios.put(`/api/products/edit/${id}`, product).then((res) => {
-      //console.log(res);
       props.history.push("/");
     });
   };

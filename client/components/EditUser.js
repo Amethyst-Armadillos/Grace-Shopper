@@ -33,7 +33,7 @@ export const EditUser = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }, {});
+  }, []);
 
   return (
     <div>
