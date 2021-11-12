@@ -13,6 +13,7 @@ export const SingleProduct = (props) => {
 
   useEffect(() => {
     axios.get(`/api/products/${props.match.params.id}`).then((response) => {
+      console.log(response);
       setData(response.data);
     });
   }, []);

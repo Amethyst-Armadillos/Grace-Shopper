@@ -8,20 +8,19 @@ export const Cart = () => {
   const userId = useSelector((state) => state.auth.id);
 
   useEffect(() => {
-    if(userId){
-
+    if (userId) {
       axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
         console.log("response data", response.data);
       });
-    }else{
-    axios.get(`/api/cart`).then((response) => {
-      console.log(response, 'wooooooghoooooo')
-      setCart(response.data)
-    })
-  }
+    } else {
+      axios.get(`/api/products/guest`).then((response) => {
+        console.log(response, "wooooooghoooooo");
+        setCart(response.data);
+      });
+    }
 
-      //console.log(cart);
+    //console.log(cart);
     // async function fetchData() {
     //   return await axios.get(`/api/cart/${userId}`);
     // }
@@ -50,10 +49,10 @@ export const Cart = () => {
   }
 
   return (
-    <div className="cart-container">
-      <div className="cart-header">
-        <h3 className="cart-title">Shopping Cart</h3>
-        <h5 className="cart-action">Remove all</h5>
+    <div className='cart-container'>
+      <div className='cart-header'>
+        <h3 className='cart-title'>Shopping Cart</h3>
+        <h5 className='cart-action'>Remove all</h5>
       </div>
 
       <div>{mappedCart}</div>
