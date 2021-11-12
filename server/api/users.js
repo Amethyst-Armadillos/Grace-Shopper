@@ -40,3 +40,15 @@ router.delete("/:id", (req, res, next) => {
     .then(() => res.sendStatus(204))
     .catch(next);
 });
+
+router.put("/edit/:id", (req, res, next) => {
+  try {
+    User.update(req.body, {
+      where: { id: req.params.id },
+    })
+      .then(() => res.sendStatus(204))
+      .catch(next);
+  } catch (err) {
+    next(err);
+  }
+});

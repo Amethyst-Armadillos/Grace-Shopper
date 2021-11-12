@@ -13,6 +13,9 @@ export const AllProducts = (props) => {
   }, []);
 
   const userId = useSelector((state) => state.auth.id);
+  const isAdmin = useSelector((state) => {
+    return state.auth.securityLevel === "admin";
+  });
 
   const handleCart = async function (id) {
     //console.log(id);
@@ -55,6 +58,11 @@ export const AllProducts = (props) => {
         >
           Add to Cart
         </button>
+        {isAdmin && (
+          <Link to={`/products/${product.id}/edit`}>
+            <button type='button'>Edit Product</button>
+          </Link>
+        )}
       </motion.div>
     );
   });
