@@ -18,14 +18,13 @@ export const AllProducts = (props) => {
     //console.log(id);
 
     //console.log(userId);
-    if(userId){
-
+    if (userId) {
       axios.put(`/api/products/${[id, userId, 1]}`);
-    }else{
+    } else {
       // console.log('inhereeer')
-      await axios.put(`/api/products/${[id, null , 1]}`).then((response) => {
-        console.log(response, 'item added to cart')
-      })
+      await axios.put(`/api/products/${[id, null, 1]}`).then((response) => {
+        console.log(response, "item added to cart");
+      });
 
       // await axios.get(`/api/products/${id}`).then((response) => {
       //   console.log(response.data, 'yuupypypypp1')
@@ -39,19 +38,19 @@ export const AllProducts = (props) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className='product-preview'
+        className="product-preview"
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
           <img
-            className='preview-image'
+            className="preview-image"
             src={product.imageUrl}
             alt={product.name}
           />
         </Link>
         <button
-          id='addCart'
-          type='button'
+          id="addCart"
+          type="button"
           onClick={() => handleCart(product.id)}
         >
           Add to Cart
@@ -60,13 +59,7 @@ export const AllProducts = (props) => {
     );
   });
 
-  return <div className='all-products-container'>{mappedProducts}</div>;
-};
-
-const mapState = (state) => {
-  return {
-    userId: state.auth.id,
-  };
+  return <div className="all-products-container">{mappedProducts}</div>;
 };
 
 export default AllProducts;

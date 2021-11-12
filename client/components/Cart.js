@@ -1,56 +1,64 @@
 import axios from "axios";
+import { use } from "chai";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const Cart = () => {
   const [cart, setCart] = useState([]);
 
-  const userId = localStorage.getItem('userId')
-console.log(userId)
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
     if (userId) {
       axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
-
       });
-
     } else {
       axios.get(`/api/products/guest`).then((response) => {
-
         setCart(response.data);
       });
     }
-
-
   }, []);
+
+  const handleDelete = (id) => {
+    axios.delete(`/api/cart/${id}`);
+    setCart(cart.filter((product) => product.id != id));
+  };
 
   let mappedCart;
 
   if (cart) {
-    mappedCart = cart.map((product) => {
-      return (
-        <div key={product.id} className="cart-items">
-          <div className="image-box">
-            <img className="cart-images" src={product.imageUrl}></img>
+    if (cart.length != 0) {
+      mappedCart = cart.map((product) => {
+        return (
+          <div key={product.id} className="cart-items">
+            <div className="image-box">
+              <img className="cart-images" src={product.imageUrl}></img>
+            </div>
+            <div className="about">
+              <h1 className="title">{product.name}</h1>
+            </div>
+            <div className="cart-counter">
+              <div className="cart-counter-btn">-</div>
+              <div className="cart-count">{product.quantity}</div>
+              <div className="cart-counter-btn">+</div>
+            </div>
+            <div className="cart-prices">
+              <div className="cart-amount">${product.price}</div>
+              <button
+                className="cart-remove"
+                onClick={() => handleDelete(product.id)}
+              >
+                Remove
+              </button>
+            </div>
           </div>
-          <div className="about">
-            <h1 className="title">{product.name}</h1>
-          </div>
-          <div className="cart-counter">
-            <div className="cart-counter-btn">-</div>
-            <div className="cart-count">{product.quantity}</div>
-            <div className="cart-counter-btn">+</div>
-          </div>
-          <div className="cart-prices">
-            <div className="cart-amount">${product.price}</div>
-            <div className="cart-remove">Remove</div>
-          </div>
-        </div>
-      );
-    });
+        );
+      });
+    } else {
+      mappedCart = <h1>There's nothing here...</h1>;
+    }
   }
-
   return (
     <div className="cart-container">
       <div className="cart-header">
@@ -67,7 +75,7 @@ console.log(userId)
             <div className="total-amount">$6.00</div>
           </div>
         </div>
-        <button className = 'checkout-button'>Checkout</button>
+        <button className="checkout-button">Checkout</button>
       </div>
     </div>
   );
