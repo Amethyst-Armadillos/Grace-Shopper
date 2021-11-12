@@ -1,11 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { useSelector } from "react-redux";
 
 /**
  * COMPONENT
  */
 export const Home = props => {
   const {username} = props
+  const userId = useSelector((state) => state.auth.id);
+
+  localStorage.setItem('userId', JSON.stringify(userId))
 
   return (
     <div>

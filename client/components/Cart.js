@@ -5,30 +5,24 @@ import { useSelector } from "react-redux";
 export const Cart = () => {
   const [cart, setCart] = useState([]);
 
-  const userId = useSelector((state) => state.auth.id);
+  const userId = localStorage.getItem('userId')
+console.log(userId)
 
   useEffect(() => {
     if (userId) {
       axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
-        console.log("response data", response.data);
+
       });
+
     } else {
       axios.get(`/api/products/guest`).then((response) => {
-        console.log(response, "wooooooghoooooo");
+
         setCart(response.data);
       });
     }
 
-    //console.log(cart);
-    // async function fetchData() {
-    //   return await axios.get(`/api/cart/${userId}`);
-    // }
-    // const cartItems = fetchData();
-    // console.log(cartItems);
-    // setCart(cartItems.PromiseResult.data);
 
-    //console.log(cart);
   }, []);
 
   let mappedCart;
