@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
+import { useSelector } from "react-redux";
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
   <nav className='nav-bar'>
     {isLoggedIn ? (
       <div className='nav-bar'>
@@ -15,6 +16,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <a href='#' onClick={handleClick}>
           Logout
         </a>
+        {securityLevel === "admin" && <Link to='/userinfo'>UserInfo</Link>}
       </div>
     ) : (
       <div className='nav-bar'>
@@ -35,6 +37,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
 const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
+    securityLevel: state.auth.securityLevel,
   };
 };
 
