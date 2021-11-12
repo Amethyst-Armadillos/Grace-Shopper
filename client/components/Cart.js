@@ -27,12 +27,15 @@ export const Cart = () => {
     setCart(cart.filter((product) => product.id != id));
   };
 
-  const decrementCount = (e) => {
-    axios.put("/api/cart/1/6", { quantity: 200 });
+  const decrementCount = function (cartId, productId, quantity) {
+    let newQuantity = quantity-=1
+    axios.put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity});
+    console.log(cart)
   };
 
-  const incrementCount = function (cartId, productId) {
-    axios.put(`/api/cart/${cartId}/${productId}`, { quantity: 100000 });
+  const incrementCount = function (cartId, productId, quantity) {
+    let newQuantity = quantity+=1
+    axios.put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity });
   };
 
   let mappedCart;
@@ -51,7 +54,7 @@ export const Cart = () => {
             <div className='cart-counter'>
               <button
                 className='cart-counter-btn'
-                onClick={() => decrementCount()}
+                onClick={() => decrementCount(product.cartId, product.productId, product.quantity)}
               >
                 -
               </button>
@@ -59,7 +62,7 @@ export const Cart = () => {
               <button
                 className='cart-counter-btn'
                 onClick={() =>
-                  incrementCount(product.cartId, product.productId)
+                  incrementCount(product.cartId, product.productId, product.quantity)
                 }
               >
                 +
