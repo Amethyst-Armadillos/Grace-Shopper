@@ -43,12 +43,15 @@ export const Cart = () => {
           <div className="about">
             <h1 className="title">{product.name}</h1>
           </div>
-          <div className = 'cart-counter'>
-            <div className = 'cart-counter-btn'>-</div>
-            <div className = 'cart-count'>{product.quantity}</div>
-            <div className = 'cart-counter-btn'>+</div>
+          <div className="cart-counter">
+            <div className="cart-counter-btn">-</div>
+            <div className="cart-count">{product.quantity}</div>
+            <div className="cart-counter-btn">+</div>
           </div>
-          <div className = 'cart-prices'></div>
+          <div className="cart-prices">
+            <div className="cart-amount">{product.price}</div>
+            <div className="cart-remove">Remove</div>
+          </div>
         </div>
       );
     });
@@ -62,10 +65,16 @@ export const Cart = () => {
       </div>
 
       <div>{mappedCart}</div>
-      <h2>total</h2>
-      <button>
-        <h3>Purchase</h3>
-      </button>
+      <div className="checkout">
+        <div className="total">
+          <div>
+            <div className="subtotal">Sub-Total</div>
+            <div className="items">2 bouquets</div>
+            <div className="total-amount">$6.00</div>
+          </div>
+        </div>
+        <button className = 'checkout-button'>Checkout</button>
+      </div>
     </div>
   );
 };
