@@ -40,22 +40,20 @@ export const AllProducts = (props) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-
         transition={{ delay: 0.2 }}
         className='product-preview'
-
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
           <img
-            className="preview-image"
+            className='preview-image'
             src={product.imageUrl}
             alt={product.name}
           />
         </Link>
         <button
-          id="addCart"
-          type="button"
+          id='addCart'
+          type='button'
           onClick={() => handleCart(product.id)}
         >
           Add to Cart
@@ -69,7 +67,6 @@ export const AllProducts = (props) => {
     );
   });
 
-
   return (
     <div className='all-products-container'>
       {mappedProducts}
@@ -78,9 +75,6 @@ export const AllProducts = (props) => {
       </Link>
     </div>
   );
-};
-
-
 };
 
 export default AllProducts;
