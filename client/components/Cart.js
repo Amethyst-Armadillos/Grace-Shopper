@@ -45,7 +45,7 @@ export const Cart = () => {
           </div>
           <div className = 'cart-counter'>
             <div className = 'cart-counter-btn'>-</div>
-            <div className = 'cart-count'>2</div>
+            <div className = 'cart-count'>{product.quantity}</div>
             <div className = 'cart-counter-btn'>+</div>
           </div>
           <div className = 'cart-prices'></div>
