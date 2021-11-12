@@ -28,8 +28,11 @@ router.delete("/:id", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    let product = await Product.findByPk(req.params.id);
-    res.send(product);
+
+    // let product = await Product.findByPk(req.params.id);
+    let cartProduct = await CartItem.findByPk(req.params.id)
+    console.log(cartProduct, 'AHDASJJDAKSDKASJDLASJDKLASJDKLASJDAKLDJAKS')
+    res.send( cartProduct);
   } catch (error) {
     next(error);
   }
@@ -39,11 +42,13 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     let params = req.params.id.split(",");
-    let user = await User.findByPk(params[1]);
     let product = await Product.findByPk(params[0]);
     let quantity = params[2];
-    let cart = await user.getCart();
-    let previousItems = await cart.getCartItems();
+    if(params[1] !== ''){
+      console.log(params, 'adhaajsadshasdjkasdjkdalsjkasdjaskdjasdkadsjkjasdkjasdkjaksdjaksdjasdjkadsjasdjasdjasdjasdjjasdjasdjasdjadsjasd******************************   **** * * * * * * * * ** * * ** * *')
+      let user = await User.findByPk(params[1]);
+      let cart = await user.getCart();
+      let previousItems = await cart.getCartItems();
     for (let i = 0; i < previousItems.length; i++) {
       if (previousItems[i].productId === product.id) {
         let newQuantity =
@@ -52,6 +57,11 @@ router.put("/:id", async (req, res, next) => {
         return res.send(previousItems[i]);
       }
     }
+    cart.addCartItem(cartItem);
+    res.send(cart);
+  }
+
+
     let cartItem = await CartItem.create({
       quantity,
       productId: product.id,
@@ -59,8 +69,9 @@ router.put("/:id", async (req, res, next) => {
       price: product.price,
       imageUrl: product.imageUrl,
     });
-    cart.addCartItem(cartItem);
-    res.send(cart);
+
+    res.send(cartItem)
+
   } catch (error) {
     next(error);
   }
