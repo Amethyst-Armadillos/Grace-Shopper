@@ -42,4 +42,22 @@ router.delete("/:pId", async (req, res, next) => {
   }
 });
 
+//increases the product count in the cart by one
+router.put("/:cartId/:productId", async (req, res, next) => {
+  try {
+    //update the amount in the cart model.
+    const cartId = req.params.cartId;
+    const productId = req.params.productId;
+    const newQuantity = req.body.quantity;
+    const updateQuantity = await CartItem.update({quantity: newQuantity},
+      { where: {cartId: cartId, productId: productId} });
+    //then send back all the data to rerender
+    const cartData = await CartItem.findAll()
+    res.send(cartData)
+  } catch (error) {
+    next(error)
+  }
+})
+
+
 module.exports = router;

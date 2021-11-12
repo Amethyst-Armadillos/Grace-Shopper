@@ -34,7 +34,7 @@ router.get("/guest", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    let product = await Product.findByPk(req.params.id);
+    let product = await Product.findOne({ where: { id: req.params.id } });
     res.send(product);
   } catch (error) {
     next(error);
@@ -94,10 +94,19 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/update/:Id", async (req, res, next) => {
+router.put("/edit/:id", async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.Id);
+    const product = await Product.findByPk(req.params.id);
     res.send(await product.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/new", async (req, res, next) => {
+  try {
+    const product = await Product.create(req.body);
+    res.send(product);
   } catch (error) {
     next(error);
   }

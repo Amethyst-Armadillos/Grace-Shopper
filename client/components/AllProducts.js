@@ -13,6 +13,9 @@ export const AllProducts = (props) => {
   }, []);
 
   const userId = useSelector((state) => state.auth.id);
+  const isAdmin = useSelector((state) => {
+    return state.auth.securityLevel === "admin";
+  });
 
   const handleCart = async function (id) {
     //console.log(id);
@@ -37,8 +40,10 @@ export const AllProducts = (props) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="product-preview"
+
+        transition={{ delay: 0.2 }}
+        className='product-preview'
+
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
@@ -55,11 +60,27 @@ export const AllProducts = (props) => {
         >
           Add to Cart
         </button>
+        {isAdmin && (
+          <Link to={`/products/${product.id}/edit`}>
+            <button type='button'>Edit Product</button>
+          </Link>
+        )}
       </motion.div>
     );
   });
 
-  return <div className="all-products-container">{mappedProducts}</div>;
+
+  return (
+    <div className='all-products-container'>
+      {mappedProducts}
+      <Link to='/create/products'>
+        <button>Add New Product</button>
+      </Link>
+    </div>
+  );
+};
+
+
 };
 
 export default AllProducts;
