@@ -21,6 +21,7 @@ Cart.hasOne(User);
 //Can use Cart.removeCartItems(CartItem) to remove a cart item
 Cart.hasMany(CartItem);
 
+
 module.exports = {
   db,
   models: {
