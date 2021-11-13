@@ -45,6 +45,14 @@ export const Cart = () => {
       });
   };
 
+  const handleCheckOut = (id) => {
+    console.log('hellooo', id)
+    axios.put(`/api/cart/${id}`).then((response) => {
+      console.log(response)
+      setCart(response.data)
+    })
+  }
+
   let mappedCart;
 
   if (cart) {
@@ -117,7 +125,9 @@ export const Cart = () => {
             <div className="total-amount">$6.00</div>
           </div>
         </div>
-        <button className="checkout-button">Checkout</button>
+
+        <button className='checkout-button'
+         onClick={() => handleCheckOut(userId)}>Checkout</button>
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 router.get("/guest", async (req, res, next) => {
-  let cartProduct = await CartItem.findAll({ where: { cartId: null } });
+  let cartProduct = await CartItem.findAll({ where: { cartId: null, fullFilled: false } });
   console.log(cartProduct, "AHDASJJDAKSDKASJDLASJDKLASJDKLASJDAKLDJAKS");
   res.send(cartProduct);
 });
@@ -52,7 +52,7 @@ router.put("/:id", async (req, res, next) => {
       let cart = await user.getCart();
       let previousItems = await cart.getCartItems();
       for (let i = 0; i < previousItems.length; i++) {
-        if (previousItems[i].productId === product.id) {
+        if (previousItems[i].productId === product.id && previousItems[i].fullFilled === false) {
           let newQuantity =
             parseInt(previousItems[i].quantity) + parseInt(quantity);
           await previousItems[i].update({ quantity: newQuantity });
@@ -71,7 +71,7 @@ router.put("/:id", async (req, res, next) => {
     } else {
       let previousItems = await CartItem.findAll({ where: { cartId: null } });
       for (let i = 0; i < previousItems.length; i++) {
-        if (previousItems[i].productId === product.id) {
+        if (previousItems[i].productId === product.id && previousItems[i].fullFilled === false) {
           let newQuantity =
             parseInt(previousItems[i].quantity) + parseInt(quantity);
           await previousItems[i].update({ quantity: newQuantity });

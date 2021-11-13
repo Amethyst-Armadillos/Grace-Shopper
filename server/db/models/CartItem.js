@@ -24,6 +24,10 @@ const CartItem = db.define("cartItem", {
   imageUrl: {
     type: Sequelize.TEXT,
   },
+  fullFilled: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  }
 });
 
 module.exports = CartItem;
