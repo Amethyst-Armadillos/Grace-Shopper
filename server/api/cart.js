@@ -22,7 +22,7 @@ router.get("/:id", async (req, res, next) => {
     }
     const cart = await user.getCart({ include: { model: CartItem } });
 
-    const cartItems = await CartItem.findAll({ where: { cartId: cart.id } });
+    const cartItems = await CartItem.findAll({ where: { cartId: cart.id , fullFilled: false} });
     console.log(cartItems);
     res.send(cartItems);
   } catch (err) {
@@ -54,6 +54,37 @@ router.put("/:cartId/:productId", async (req, res, next) => {
     //then send back all the data to rerender
     const cartData = await CartItem.findAll()
     res.send(cartData)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    //update the amount in the cart model.
+    console.log(req.params.id)
+    if(req.params.id != 'null'){
+      console.log('plz noo')
+      const cartData = await CartItem.findAll({where: {cartId: req.params.id}})
+
+      console.log(cartData,'we got in herer')
+      cartData.map(item => {
+        item.update({fullFilled: true})
+      })
+
+
+    }
+    const cartData = await CartItem.findAll({where: {cartId: null}})
+
+    cartData.map(async (item) => {
+      await item.update({fullFilled: true})
+    })
+    console.log(cartData)
+    const newCart = await CartItem.findAll({where: {fullFilled: false}})
+
+    res.send(cartData.filter(cart => {
+      cart.fullFilled != true
+    }))
   } catch (error) {
     next(error)
   }
