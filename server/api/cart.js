@@ -64,16 +64,22 @@ router.put("/:id", async (req, res, next) => {
     //update the amount in the cart model.
     console.log(req.params.id)
     if(req.params.id != 'null'){
+      const user = await User.findByPk(req.params.id)
       console.log('plz noo')
-      const cartData = await CartItem.findAll({where: {cartId: req.params.id}})
+      const cart = await user.getCart({ include: { model: CartItem } });
+      const cartData = await CartItem.findAll({where: {cartId: cart.id}})
 
       console.log(cartData,'we got in herer')
-      cartData.map(item => {
-        item.update({fullFilled: true})
+      cartData.map(async (item) => {
+        await item.update({fullFilled: true})
       })
 
+      console.log(cart, 'thisssisissi')
+      res.send(cartData.filter(cart => {
+        cart.fullFilled != true
+      }))
 
-    }
+    }else{
     const cartData = await CartItem.findAll({where: {cartId: null}})
 
     cartData.map(async (item) => {
@@ -84,7 +90,7 @@ router.put("/:id", async (req, res, next) => {
 
     res.send(cartData.filter(cart => {
       cart.fullFilled != true
-    }))
+    }))}
   } catch (error) {
     next(error)
   }
