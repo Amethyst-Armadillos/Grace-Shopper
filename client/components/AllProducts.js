@@ -26,7 +26,7 @@ export const AllProducts = (props) => {
     } else {
       // console.log('inhereeer')
       await axios.put(`/api/products/${[id, null, 1]}`).then((response) => {
-        console.log(response, "item added to cart");
+        window.localStorage.setItem('cart', JSON.stringify(response.data))
       });
 
       // await axios.get(`/api/products/${id}`).then((response) => {
