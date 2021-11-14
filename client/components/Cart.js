@@ -40,21 +40,50 @@ export const Cart = () => {
 
   const decrementCount = function (cartId, productId, quantity) {
     let newQuantity = (quantity -= 1);
-    axios
-      .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity })
-      .then((response) => {
-        setCart(response.data);
-      });
+    let cart = [];
+
+    if(cartId){
+      axios
+        .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity, cart: cart })
+
+        axios.get(`/api/cart/${userId}`).then((response) => {
+          setCart(response.data);
+          })
+        }else{
+          cart = JSON.parse(localStorage.getItem('guest'))
+          console.log('heheheheh', cart)
+          for(let x = 0; x < cart.length; x++){
+            if(cart[x].productId === productId){
+              cart[x].quantity -=1
+            }
+          }
+          localStorage.setItem('guest', JSON.stringify(cart))
+          setCart(cart)
+        }
   };
 
   const incrementCount = function (cartId, productId, quantity) {
     let newQuantity = (quantity += 1);
+    console.log(cartId, 'yesssir')
+    let cart = [];
+    if(cartId){
     axios
-      .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity })
-      .then((response) => {
-        console.log(response.data)
+      .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity, cart: cart })
+
+      axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
-      });
+        })
+      }else{
+        cart = JSON.parse(localStorage.getItem('guest'))
+        console.log('heheheheh', cart)
+        for(let x = 0; x < cart.length; x++){
+          if(cart[x].productId === productId){
+            cart[x].quantity +=1
+          }
+        }
+        localStorage.setItem('guest', JSON.stringify(cart))
+        setCart(cart)
+      }
   };
 
   const handleCheckOut = (id) => {

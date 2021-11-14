@@ -52,14 +52,14 @@ router.put("/:cartId/:productId", async (req, res, next) => {
     const newQuantity = req.body.quantity;
     if(req.params.cartId !== 'null'){
       console.log('ooooooo nooooeoeessssssss')
-    const updateQuantity = await CartItem.update({quantity: newQuantity},
+     await CartItem.update({quantity: newQuantity},
       { where: {cartId: cartId, productId: productId} });
     //then send back all the data to rerender
     const cartData = await CartItem.findAll({where: {cartId: cartId, fullFilled: false}})
     res.send(cartData)
     }else{
     console.log('herooooasodsaodaodasodaodaooo')
-    const updateQuantity = await CartItem.update({quantity: newQuantity},
+     await CartItem.update({quantity: newQuantity},
       { where: {cartId: null , productId: productId} });
     //then send back all the data to rerender
     const cartData = await CartItem.findAll({where: {cartId: cartId, fullFilled: false}})
