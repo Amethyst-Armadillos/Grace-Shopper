@@ -44,7 +44,7 @@ export const EditUser = (props) => {
             <label>
               Username:
               <input
-                type='text'
+                type="text"
                 value={user.username}
                 onChange={(e) => setUser({ ...user, username: e.target.value })}
               />
@@ -52,7 +52,7 @@ export const EditUser = (props) => {
             <label>
               Password:
               <input
-                type='text'
+                type="text"
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
@@ -61,7 +61,7 @@ export const EditUser = (props) => {
               <label>
                 Security Level:
                 <input
-                  type='text'
+                  type="text"
                   value={user.securityLevel}
                   onChange={(e) =>
                     setUser({ ...user, securityLevel: e.target.value })

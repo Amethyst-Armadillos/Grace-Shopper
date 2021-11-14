@@ -9,10 +9,7 @@ export const Home = props => {
   const {username} = props
   const userId = useSelector((state) => state.auth.id);
   localStorage.setItem('userId', JSON.stringify(userId))
-  if(!userId){
-  console.log('right over here matee!')
 
-}
   return (
     <div>
       <h3>Welcome, {username}</h3>

@@ -35,12 +35,12 @@ export const UserInfo = (props) => {
                       );
                     })
                   }
-                  type='button'
+                  type="button"
                 >
                   Delete User
                 </button>
                 <Link to={`/users/${user.id}`}>
-                  <button type='button'>Edit User</button>
+                  <button type="button">Edit User</button>
                 </Link>
               </li>
             );

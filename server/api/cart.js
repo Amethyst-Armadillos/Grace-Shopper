@@ -7,7 +7,7 @@ const router = require("express").Router();
 router.get("/", async (req, res, next) => {
   try {
     const cartData = await CartItem.findAll();
-    console.log(cartData);
+
     res.send(cartData);
   } catch (error) {
     next(error);
@@ -22,8 +22,10 @@ router.get("/:id", async (req, res, next) => {
     }
     const cart = await user.getCart({ include: { model: CartItem } });
 
-    const cartItems = await CartItem.findAll({ where: { cartId: cart.id , fullFilled: false} });
-    console.log(cartItems);
+    const cartItems = await CartItem.findAll({
+      where: { cartId: cart.id, fullFilled: false },
+    });
+
     res.send(cartItems);
   } catch (err) {
     next(err);
@@ -47,66 +49,70 @@ router.put("/:cartId/:productId", async (req, res, next) => {
   try {
     //update the amount in the cart model.
     const cartId = req.params.cartId;
-    console.log(cartId)
+
     const productId = req.params.productId;
     const newQuantity = req.body.quantity;
-    if(req.params.cartId !== 'null'){
-      console.log('ooooooo nooooeoeessssssss')
-     await CartItem.update({quantity: newQuantity},
-      { where: {cartId: cartId, productId: productId} });
-    //then send back all the data to rerender
-    const cartData = await CartItem.findAll({where: {cartId: cartId, fullFilled: false}})
-    res.send(cartData)
-    }else{
-    console.log('herooooasodsaodaodasodaodaooo')
-     await CartItem.update({quantity: newQuantity},
-      { where: {cartId: null , productId: productId} });
-    //then send back all the data to rerender
-    const cartData = await CartItem.findAll({where: {cartId: cartId, fullFilled: false}})
-    res.send(cartData)
+    if (req.params.cartId !== "null" && newQuantity >= 1) {
+      await CartItem.update(
+        { quantity: newQuantity },
+        { where: { cartId: cartId, productId: productId } }
+      );
+      //then send back all the data to rerender
+      const cartData = await CartItem.findAll({
+        where: { cartId: cartId, fullFilled: false },
+      });
+      res.send(cartData);
+    } else {
+      await CartItem.update(
+        { quantity: newQuantity },
+        { where: { cartId: null, productId: productId } }
+      );
+      //then send back all the data to rerender
+      const cartData = await CartItem.findAll({
+        where: { cartId: cartId, fullFilled: false },
+      });
+      res.send(cartData);
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 router.put("/:id", async (req, res, next) => {
   try {
     //update the amount in the cart model.
-    console.log(req.params.id)
-    if(req.params.id != 'null'){
-      const user = await User.findByPk(req.params.id)
-      console.log('plz noo')
+
+    if (req.params.id != "null") {
+      const user = await User.findByPk(req.params.id);
+
       const cart = await user.getCart({ include: { model: CartItem } });
-      const cartData = await CartItem.findAll({where: {cartId: cart.id}})
+      const cartData = await CartItem.findAll({ where: { cartId: cart.id } });
 
-      console.log(cartData,'we got in herer')
       cartData.map(async (item) => {
-        await item.update({fullFilled: true})
-      })
+        await item.update({ fullFilled: true });
+      });
 
-      console.log(cart, 'thisssisissi')
-      res.send(cartData.filter(cart => {
-        cart.fullFilled != true
-      }))
+      res.send(
+        cartData.filter((cart) => {
+          cart.fullFilled != true;
+        })
+      );
+    } else {
+      const cartData = await CartItem.findAll({ where: { cartId: null } });
 
-    }else{
-    const cartData = await CartItem.findAll({where: {cartId: null}})
-    // const cartData = JSON.parse(window.localStorage.getItem('guest'))
+      cartData.map(async (item) => {
+        await item.update({ fullFilled: true });
+      });
 
-    cartData.map(async (item) => {
-      await item.update({fullFilled: true})
-    })
-    console.log(cartData)
-    const newCart = await CartItem.findAll({where: {fullFilled: false}})
-
-    res.send(cartData.filter(cart => {
-      cart.fullFilled != true
-    }))}
+      res.send(
+        cartData.filter((cart) => {
+          cart.fullFilled != true;
+        })
+      );
+    }
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
+});
 
 module.exports = router;
