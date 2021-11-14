@@ -124,6 +124,7 @@ export const Cart = () => {
   if (cart) {
     if (cart.length != 0) {
       mappedCart = cart.map((product) => {
+        console.log(product);
         return (
           <div key={product.id} className='cart-items'>
             <div className='image-box'>
@@ -163,7 +164,7 @@ export const Cart = () => {
               <div className='cart-amount'>${product.price}</div>
               <button
                 className='cart-remove'
-                onClick={() => handleDelete(product.id)}
+                onClick={() => handleDelete(product.productId)}
               >
                 Remove
               </button>
@@ -193,7 +194,7 @@ export const Cart = () => {
         </div>
 
         <button
-          className="checkout-button"
+          className='checkout-button'
           onClick={() => handleCheckOut(userId)}
         >
           Checkout
