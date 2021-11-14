@@ -22,8 +22,9 @@ router.get("/:id", async (req, res, next) => {
     }
     const cart = await user.getCart({ include: { model: CartItem } });
 
-    const cartItems = await CartItem.findAll({ where: { cartId: cart.id , fullFilled: false} });
-    console.log(cartItems);
+    const cartItems = await CartItem.findAll({
+      where: { cartId: cart.id, fullFilled: false },
+    });
     res.send(cartItems);
   } catch (err) {
     next(err);
@@ -49,52 +50,53 @@ router.put("/:cartId/:productId", async (req, res, next) => {
     const cartId = req.params.cartId;
     const productId = req.params.productId;
     const newQuantity = req.body.quantity;
-    const updateQuantity = await CartItem.update({quantity: newQuantity},
-      { where: {cartId: cartId, productId: productId} });
+    const updateQuantity = await CartItem.update(
+      { quantity: newQuantity },
+      { where: { cartId: cartId, productId: productId } }
+    );
     //then send back all the data to rerender
-    const cartData = await CartItem.findAll()
-    res.send(cartData)
+    const cartData = await CartItem.findAll();
+    res.send(cartData);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 router.put("/:id", async (req, res, next) => {
   try {
     //update the amount in the cart model.
-    console.log(req.params.id)
-    if(req.params.id != 'null'){
-      const user = await User.findByPk(req.params.id)
-      console.log('plz noo')
+    console.log(req.params.id);
+    if (req.params.id != "null") {
+      const user = await User.findByPk(req.params.id);
       const cart = await user.getCart({ include: { model: CartItem } });
-      const cartData = await CartItem.findAll({where: {cartId: cart.id}})
+      const cartData = await CartItem.findAll({ where: { cartId: cart.id } });
 
-      console.log(cartData,'we got in herer')
       cartData.map(async (item) => {
-        await item.update({fullFilled: true})
-      })
+        await item.update({ fullFilled: true });
+      });
 
-      console.log(cart, 'thisssisissi')
-      res.send(cartData.filter(cart => {
-        cart.fullFilled != true
-      }))
+      res.send(
+        cartData.filter((cart) => {
+          cart.fullFilled != true;
+        })
+      );
+    } else {
+      const cartData = await CartItem.findAll({ where: { cartId: null } });
 
-    }else{
-    const cartData = await CartItem.findAll({where: {cartId: null}})
+      cartData.map(async (item) => {
+        await item.update({ fullFilled: true });
+      });
+      const newCart = await CartItem.findAll({ where: { fullFilled: false } });
 
-    cartData.map(async (item) => {
-      await item.update({fullFilled: true})
-    })
-    console.log(cartData)
-    const newCart = await CartItem.findAll({where: {fullFilled: false}})
-
-    res.send(cartData.filter(cart => {
-      cart.fullFilled != true
-    }))}
+      res.send(
+        cartData.filter((cart) => {
+          cart.fullFilled != true;
+        })
+      );
+    }
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
+});
 
 module.exports = router;
