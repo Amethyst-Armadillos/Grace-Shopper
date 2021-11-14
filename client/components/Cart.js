@@ -16,9 +16,16 @@ export const Cart = () => {
         setCart(response.data);
       });
     } else {
-      axios.get(`/api/products/guest`).then((response) => {
-        setCart(response.data);
-      });
+      let items = localStorage.getItem("guest");
+      if (items) {
+        console.log(JSON.parse(items));
+        let cartArr = JSON.parse(items);
+        let guestCart = cartArr.filter((product) => {
+          return product.fullFilled !== true;
+        });
+
+        setCart(guestCart);
+      }
     }
   }, []);
 
@@ -29,26 +36,87 @@ export const Cart = () => {
 
   const decrementCount = function (cartId, productId, quantity) {
     let newQuantity = (quantity -= 1);
-    axios
-      .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity })
-      .then((response) => {
+    let cart = [];
+
+    if (cartId) {
+      axios.put(`/api/cart/${cartId}/${productId}`, {
+        quantity: newQuantity,
+        cart: cart,
+      });
+
+      axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
       });
+    } else {
+      cart = JSON.parse(localStorage.getItem("guest"));
+
+      for (let x = 0; x < cart.length; x++) {
+        if (cart[x].productId === productId) {
+          if (cart[x].quantity > 1) {
+            cart[x].quantity -= 1;
+          }
+        }
+      }
+      localStorage.setItem("guest", JSON.stringify(cart));
+      setCart(cart);
+    }
   };
 
   const incrementCount = function (cartId, productId, quantity) {
     let newQuantity = (quantity += 1);
-    axios
-      .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity })
-      .then((response) => {
+
+    let cart = [];
+    if (cartId) {
+      axios.put(`/api/cart/${cartId}/${productId}`, {
+        quantity: newQuantity,
+        cart: cart,
+      });
+
+      axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
       });
+    } else {
+      cart = JSON.parse(localStorage.getItem("guest"));
+
+      for (let x = 0; x < cart.length; x++) {
+        if (cart[x].productId === productId) {
+          cart[x].quantity += 1;
+        }
+      }
+      localStorage.setItem("guest", JSON.stringify(cart));
+      setCart(cart);
+    }
   };
 
   const handleCheckOut = (id) => {
-    axios.put(`/api/cart/${id}`).then((response) => {
-      setCart(response.data);
+    if (id) {
+      axios.put(`/api/cart/${id}`).then((response) => {
+        setCart(response.data);
+      });
+    }
+    let cartData = JSON.parse(localStorage.getItem("guest"));
+
+    cartData = cartData.map((product) => {
+      return {
+        cartId: product.CartId,
+        createdAt: product.createdAt,
+        fullFilled: true,
+        id: product.id,
+        imageUrl: product.imageUrl,
+        name: product.name,
+        price: product.price,
+        productId: product.productId,
+        quantity: product.quantity,
+        updatedAt: product.updatedAt,
+      };
     });
+
+    cartData = cartData.filter((product) => {
+      return product.fullFilled != true;
+    });
+    localStorage.setItem("guest", JSON.stringify(cartData));
+
+    setCart(cartData);
   };
 
   let mappedCart;
@@ -125,7 +193,7 @@ export const Cart = () => {
         </div>
 
         <button
-          className='checkout-button'
+          className="checkout-button"
           onClick={() => handleCheckOut(userId)}
         >
           Checkout

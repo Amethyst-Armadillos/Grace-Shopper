@@ -7,7 +7,6 @@ const router = require("express").Router();
 
 router.get("/", async (req, res, next) => {
   try {
-    //console.log(Object.keys(User.prototype));
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -18,7 +17,7 @@ router.get("/", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
-    const deleteProduct = await Product.destroy({ where: { id: productId } });
+    await Product.destroy({ where: { id: productId } });
     const products = await Product.findAll();
     res.json(products);
   } catch (error) {
@@ -27,8 +26,10 @@ router.delete("/:id", async (req, res, next) => {
 });
 
 router.get("/guest", async (req, res, next) => {
-  let cartProduct = await CartItem.findAll({ where: { cartId: null, fullFilled: false } });
-  console.log(cartProduct, "AHDASJJDAKSDKASJDLASJDKLASJDKLASJDAKLDJAKS");
+  let cartProduct = await CartItem.findAll({
+    where: { cartId: null, fullFilled: false },
+  });
+
   res.send(cartProduct);
 });
 
@@ -52,7 +53,10 @@ router.put("/:id", async (req, res, next) => {
       let cart = await user.getCart();
       let previousItems = await cart.getCartItems();
       for (let i = 0; i < previousItems.length; i++) {
-        if (previousItems[i].productId === product.id && previousItems[i].fullFilled === false) {
+        if (
+          previousItems[i].productId === product.id &&
+          previousItems[i].fullFilled === false
+        ) {
           let newQuantity =
             parseInt(previousItems[i].quantity) + parseInt(quantity);
           await previousItems[i].update({ quantity: newQuantity });
@@ -71,7 +75,10 @@ router.put("/:id", async (req, res, next) => {
     } else {
       let previousItems = await CartItem.findAll({ where: { cartId: null } });
       for (let i = 0; i < previousItems.length; i++) {
-        if (previousItems[i].productId === product.id && previousItems[i].fullFilled === false) {
+        if (
+          previousItems[i].productId === product.id &&
+          previousItems[i].fullFilled === false
+        ) {
           let newQuantity =
             parseInt(previousItems[i].quantity) + parseInt(quantity);
           await previousItems[i].update({ quantity: newQuantity });

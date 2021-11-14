@@ -5,6 +5,8 @@ import { logout } from "../store";
 import { useSelector } from "react-redux";
 
 const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
+
+
   <nav className='nav-bar'>
     <img src='/flowerlogo.png' className='navlogo' />
     <nav className='nav-links'>
@@ -25,6 +27,12 @@ const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
   </nav>
 );
 
+const guestCheck = JSON.parse(localStorage.getItem('guest'))
+console.log(guestCheck)
+if(!guestCheck){
+const guestId = []
+  localStorage.setItem('guest', JSON.stringify(guestId))
+}
 /**
  * CONTAINER
  */
