@@ -21,15 +21,12 @@ export const SingleProduct = (props) => {
   const userId = useSelector((state) => state.auth.id);
 
   const handleCart = function (id) {
-
-
-    console.log(userId);
     axios.put(`/api/products/${[id, userId, 1]}`);
   };
 
   const handleDelete = (e) => {
     axios.delete(`/api/products/${props.match.params.id}`);
-    window.open("/");
+    window.open("/products");
   };
 
   return (

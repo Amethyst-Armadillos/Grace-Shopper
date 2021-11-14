@@ -60,10 +60,9 @@ export const AllProducts = (props) => {
   const mappedProducts = data.map((product) => {
     return (
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0.01 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="product-preview"
+        className='product-preview'
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
@@ -92,9 +91,11 @@ export const AllProducts = (props) => {
   return (
     <div className="all-products-container">
       {mappedProducts}
-      <Link to="/create/products">
-        <button>Add New Product</button>
-      </Link>
+      {isAdmin && (
+        <Link to='/create/products'>
+          <button>Add New Product</button>
+        </Link>
+      )}
     </div>
   );
 };
