@@ -67,21 +67,22 @@ export const AllProducts = (props) => {
       >
         <Link to={`/products/${product.id}`}>
           <img
-            className="preview-image"
+            className='preview-image'
             src={product.imageUrl}
             alt={product.name}
           />
         </Link>
         <button
-          id="addCart"
-          type="button"
+          id='addCart'
+          type='button'
+          className='btn'
           onClick={() => handleCart(product.id)}
         >
           Add to Cart
         </button>
         {isAdmin && (
           <Link to={`/products/${product.id}/edit`}>
-            <button type="button">Edit Product</button>
+            <button type='button'>Edit Product</button>
           </Link>
         )}
       </motion.div>
@@ -89,7 +90,7 @@ export const AllProducts = (props) => {
   });
 
   return (
-    <div className="all-products-container">
+    <div className='all-products-container'>
       {mappedProducts}
       {isAdmin && (
         <Link to='/create/products'>

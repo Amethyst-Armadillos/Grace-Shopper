@@ -41,7 +41,7 @@ export const SingleProduct = (props) => {
             <Link to={`/products/${Product.id}/edit`}>
               <button>Edit Product</button>
             </Link>
-            <button type='button' onClick={handleDelete}>
+            <button className='btn' type='button' onClick={handleDelete}>
               Delete Object
             </button>
           </div>
