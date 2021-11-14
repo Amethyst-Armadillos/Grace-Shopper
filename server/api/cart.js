@@ -47,13 +47,24 @@ router.put("/:cartId/:productId", async (req, res, next) => {
   try {
     //update the amount in the cart model.
     const cartId = req.params.cartId;
+    console.log(cartId)
     const productId = req.params.productId;
     const newQuantity = req.body.quantity;
+    if(req.params.cartId !== 'null'){
+      console.log('ooooooo nooooeoeessssssss')
     const updateQuantity = await CartItem.update({quantity: newQuantity},
       { where: {cartId: cartId, productId: productId} });
     //then send back all the data to rerender
-    const cartData = await CartItem.findAll()
+    const cartData = await CartItem.findAll({where: {cartId: cartId, fullFilled: false}})
     res.send(cartData)
+    }else{
+    console.log('herooooasodsaodaodasodaodaooo')
+    const updateQuantity = await CartItem.update({quantity: newQuantity},
+      { where: {cartId: null , productId: productId} });
+    //then send back all the data to rerender
+    const cartData = await CartItem.findAll({where: {cartId: cartId, fullFilled: false}})
+    res.send(cartData)
+    }
   } catch (error) {
     next(error)
   }
@@ -81,6 +92,7 @@ router.put("/:id", async (req, res, next) => {
 
     }else{
     const cartData = await CartItem.findAll({where: {cartId: null}})
+    // const cartData = JSON.parse(window.localStorage.getItem('guest'))
 
     cartData.map(async (item) => {
       await item.update({fullFilled: true})

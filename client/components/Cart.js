@@ -7,7 +7,8 @@ export const Cart = () => {
   const [cart, setCart] = useState([]);
 
   //the below checks to see if a user is logged in.  If so, it returns their user-specific cart. Otherwise, it returns the cart currently assigned to "guest".
-
+  // const guestId = 'guest'
+  // localStorage.setItem('guest', JSON.stringify(guestId))
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -16,9 +17,19 @@ export const Cart = () => {
         setCart(response.data);
       });
     } else {
-      axios.get(`/api/products/guest`).then((response) => {
-        setCart(response.data);
-      });
+      // axios.get(`/api/products/guest`).then((response) => {
+      //   setCart(response.data);
+      // });
+      let items = localStorage.getItem('guest')
+      if(items){
+      console.log(JSON.parse(items))
+      let cartArr = JSON.parse(items)
+      let guestCart = cartArr.filter(product => {
+        return product.fullFilled !== true
+      })
+
+      setCart(guestCart)
+    }
     }
   }, []);
 
@@ -41,16 +52,41 @@ export const Cart = () => {
     axios
       .put(`/api/cart/${cartId}/${productId}`, { quantity: newQuantity })
       .then((response) => {
+        console.log(response.data)
         setCart(response.data);
       });
   };
 
   const handleCheckOut = (id) => {
     console.log('hellooo', id)
+    if(id){
     axios.put(`/api/cart/${id}`).then((response) => {
       console.log(response)
       setCart(response.data)
     })
+  }
+  let cartData = JSON.parse(localStorage.getItem('guest'))
+  console.log(cartData, 'yessssaadas')
+  cartData = cartData.map(product => {
+     return {cartId: product.CartId,
+      createdAt: product.createdAt,
+      fullFilled: true,
+      id: product.id,
+      imageUrl: product.imageUrl,
+      name: product.name,
+      price: product.price,
+      productId: product.productId,
+      quantity: product.quantity,
+      updatedAt: product.updatedAt
+  }})
+  console.log(cartData, 'CMONNNNNNNNN')
+  cartData = cartData.filter(product => {
+    return product.fullFilled != true
+  })
+  localStorage.setItem('guest', JSON.stringify(cartData))
+  console.log(cartData, 'this is it')
+  setCart(cartData)
+
   }
 
   let mappedCart;

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 export const AllProducts = (props) => {
   const [data, setData] = useState([]);
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("guest")));
   useEffect(() => {
     axios.get(`/api/products`).then((response) => {
       setData(response.data);
@@ -18,20 +19,41 @@ export const AllProducts = (props) => {
   });
 
   const handleCart = async function (id) {
-    //console.log(id);
-
-    //console.log(userId);
     if (userId) {
       axios.put(`/api/products/${[id, userId, 1]}`);
     } else {
-      // console.log('inhereeer')
-      await axios.put(`/api/products/${[id, null, 1]}`).then((response) => {
-        window.localStorage.setItem('cart', JSON.stringify(response.data))
-      });
+      await axios.get(`/api/products/${id}`).then((response) => {
+        let cartItem = {
+          quantity: 1,
+          productId: response.data.id,
+          name: response.data.name,
+          price: response.data.price,
+          imageUrl: response.data.imageUrl,
+          fullFilled: false,
+        };
 
-      // await axios.get(`/api/products/${id}`).then((response) => {
-      //   console.log(response.data, 'yuupypypypp1')
-      // })
+        if (cart.length >= 1) {
+          for (let i = 0; i < cart.length; i++) {
+            if (cart[i].productId === id && cart[i].fullFilled === false) {
+              cart[i].quantity += 1;
+            }
+          }
+
+          let found = cart.filter((product) => {
+            return product.productId === id && product.fullFilled === false;
+          });
+
+          if (found.length < 1) {
+            cart.push(cartItem);
+          }
+        } else {
+          cart.push(cartItem);
+        }
+
+        setCart(cart);
+
+        window.localStorage.setItem("guest", JSON.stringify(cart));
+      });
     }
   };
 
@@ -41,26 +63,26 @@ export const AllProducts = (props) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className='product-preview'
+        className="product-preview"
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
           <img
-            className='preview-image'
+            className="preview-image"
             src={product.imageUrl}
             alt={product.name}
           />
         </Link>
         <button
-          id='addCart'
-          type='button'
+          id="addCart"
+          type="button"
           onClick={() => handleCart(product.id)}
         >
           Add to Cart
         </button>
         {isAdmin && (
           <Link to={`/products/${product.id}/edit`}>
-            <button type='button'>Edit Product</button>
+            <button type="button">Edit Product</button>
           </Link>
         )}
       </motion.div>
@@ -68,9 +90,9 @@ export const AllProducts = (props) => {
   });
 
   return (
-    <div className='all-products-container'>
+    <div className="all-products-container">
       {mappedProducts}
-      <Link to='/create/products'>
+      <Link to="/create/products">
         <button>Add New Product</button>
       </Link>
     </div>
