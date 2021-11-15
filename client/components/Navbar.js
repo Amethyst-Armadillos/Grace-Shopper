@@ -4,30 +4,46 @@ import { Link } from "react-router-dom";
 import { logout } from "../store";
 import { useSelector } from "react-redux";
 
-const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
-  <nav className='nav-bar'>
-    <img src='/flowerlogo.png' className='navlogo' />
-    <nav className='nav-links'>
-      <Link to='/home'>Home</Link>
-      <Link to='/about'>about</Link>
-      <Link to='/products'>Products</Link>
-      <Link to='/contact'>Contact</Link>
-      {isLoggedIn ? (
+const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => {
+  return isLoggedIn ? (
+    <nav className='nav-bar'>
+      <img src='/flowerlogo.png' className='navlogo' />
+      <nav className='nav-links'>
+        <Link to='/home'>Home</Link>
+        <Link to='/about'>about</Link>
+        <Link to='/products'>Products</Link>
+        <Link to='/contact'>Contact</Link>
         <a href='#' onClick={handleClick}>
           Logout
         </a>
-      ) : (
-        <a href='/login'>Login</a>
-      )}
-      {securityLevel === "admin" && <Link to='/userinfo'>UserInfo</Link>}
+        {securityLevel === "admin" && <Link to='/userinfo'>UserInfo</Link>}
+      </nav>
+      <div className='icons'>
+        <Link to='/cart'>
+          <img className='shopping-cart' src='./images/cart.png' />
+        </Link>
+      </div>
     </nav>
-    <div className='icons'>
-      <Link to='/cart'>
-        <img className='shopping-cart' src='./images/cart.png' />
-      </Link>
-    </div>
-  </nav>
-);
+  ) : (
+    <nav className='nav-bar'>
+      <img src='/flowerlogo.png' className='navlogo' />
+      <nav className='nav-links'>
+        <Link to='/home'>Home</Link>
+        <Link to='/about'>about</Link>
+        <Link to='/products'>Products</Link>
+        <Link to='/contact'>Contact</Link>
+        <Link to='/signup'>Sign Up</Link>
+        <Link to='/login'>Login</Link>
+        {securityLevel === "admin" && <Link to='/userinfo'>UserInfo</Link>}
+      </nav>
+      <div className='icons'>
+        <Link to='/cart'>
+          <img className='shopping-cart' src='./images/cart.png' />
+        </Link>
+      </div>
+    </nav>
+  );
+};
 
 const guestCheck = JSON.parse(localStorage.getItem("guest"));
 console.log(guestCheck);

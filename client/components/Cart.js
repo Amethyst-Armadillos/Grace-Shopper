@@ -11,7 +11,7 @@ export const Cart = () => {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (userId && userId !== 'undefined') {
+    if (userId && userId !== "undefined") {
       axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
       });
@@ -30,18 +30,16 @@ export const Cart = () => {
   }, []);
 
   const handleDelete = (id) => {
-    console.log(id)
-    let guestCart = JSON.parse(localStorage.getItem('guest'))
-    console.log(guestCart)
-    if(guestCart){
-
-      let guestCardEdit = cart.filter((product) => product.productId != id)
-      console.log('arrgrggg', guestCardEdit, id)
+    console.log(id);
+    let guestCart = JSON.parse(localStorage.getItem("guest"));
+    console.log(guestCart);
+    if (guestCart) {
+      let guestCardEdit = cart.filter((product) => product.productId != id);
+      console.log("arrgrggg", guestCardEdit, id);
       setCart(guestCardEdit);
-      localStorage.setItem('guest', JSON.stringify(guestCardEdit))
+      localStorage.setItem("guest", JSON.stringify(guestCardEdit));
     }
     axios.delete(`/api/cart/${id}`);
-
   };
 
   const decrementCount = function (cartId, productId, quantity) {
@@ -173,10 +171,7 @@ export const Cart = () => {
             <div className='cart-prices'>
               <div className='cart-amount'>${product.price}</div>
               <button
-
-
                 className='cart-remove'
-
                 onClick={() => handleDelete(product.productId)}
               >
                 Remove
