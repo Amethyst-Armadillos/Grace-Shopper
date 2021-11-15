@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   try {
     const productId = req.params.id;
-    await Product.destroy({ where: { id: productId } });
+    const deleteProduct = await Product.destroy({ where: { id: productId } });
     const products = await Product.findAll();
     res.json(products);
   } catch (error) {
@@ -29,7 +29,6 @@ router.get("/guest", async (req, res, next) => {
   let cartProduct = await CartItem.findAll({
     where: { cartId: null, fullFilled: false },
   });
-
   res.send(cartProduct);
 });
 
