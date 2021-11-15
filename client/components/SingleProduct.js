@@ -21,15 +21,12 @@ export const SingleProduct = (props) => {
   const userId = useSelector((state) => state.auth.id);
 
   const handleCart = function (id) {
-
-
-    console.log(userId);
     axios.put(`/api/products/${[id, userId, 1]}`);
   };
 
   const handleDelete = (e) => {
     axios.delete(`/api/products/${props.match.params.id}`);
-    window.open("/");
+    window.open("/products");
   };
 
   return (
@@ -44,7 +41,7 @@ export const SingleProduct = (props) => {
             <Link to={`/products/${Product.id}/edit`}>
               <button>Edit Product</button>
             </Link>
-            <button type='button' onClick={handleDelete}>
+            <button className='btn' type='button' onClick={handleDelete}>
               Delete Object
             </button>
           </div>

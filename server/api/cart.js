@@ -25,7 +25,6 @@ router.get("/:id", async (req, res, next) => {
     const cartItems = await CartItem.findAll({
       where: { cartId: cart.id, fullFilled: false },
     });
-
     res.send(cartItems);
   } catch (err) {
     next(err);
@@ -81,7 +80,6 @@ router.put("/:cartId/:productId", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     //update the amount in the cart model.
-
     if (req.params.id != "null") {
       const user = await User.findByPk(req.params.id);
 

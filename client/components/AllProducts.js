@@ -60,29 +60,29 @@ export const AllProducts = (props) => {
   const mappedProducts = data.map((product) => {
     return (
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0.01 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="product-preview"
+        className='product-preview'
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
           <img
-            className="preview-image"
+            className='preview-image'
             src={product.imageUrl}
             alt={product.name}
           />
         </Link>
         <button
-          id="addCart"
-          type="button"
+          id='addCart'
+          type='button'
+          className='btn'
           onClick={() => handleCart(product.id)}
         >
           Add to Cart
         </button>
         {isAdmin && (
           <Link to={`/products/${product.id}/edit`}>
-            <button type="button">Edit Product</button>
+            <button type='button'>Edit Product</button>
           </Link>
         )}
       </motion.div>
@@ -90,11 +90,13 @@ export const AllProducts = (props) => {
   });
 
   return (
-    <div className="all-products-container">
+    <div className='all-products-container'>
       {mappedProducts}
-      <Link to="/create/products">
-        <button>Add New Product</button>
-      </Link>
+      {isAdmin && (
+        <Link to='/create/products'>
+          <button>Add New Product</button>
+        </Link>
+      )}
     </div>
   );
 };
