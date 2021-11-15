@@ -11,8 +11,19 @@ export const Home = (props) => {
   localStorage.setItem("userId", JSON.stringify(userId));
 
   return (
-    <div>
-      <h3>Welcome, {username}</h3>
+    <div className='home'>
+      <div className='content'>
+        <h3>fresh flowers</h3>
+        <span> natural & beautiful flowers </span>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
+          laborum ut minus corrupti dolorum dolore assumenda iste voluptate
+          dolorem pariatur. Please work
+        </p>
+        <a href='/products' className='btn'>
+          shop now
+        </a>
+      </div>
     </div>
   );
 };
