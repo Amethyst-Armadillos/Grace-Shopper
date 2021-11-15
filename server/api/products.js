@@ -49,7 +49,8 @@ router.put("/:id", async (req, res, next) => {
     let quantity = params[2];
     if (params[1] !== "") {
       let user = await User.findByPk(params[1]);
-      let cart = await user.getCart();
+      let currentCart = user.currentCart;
+      let cart = await Cart.findByPk(currentCart);
       let previousItems = await cart.getCartItems();
       for (let i = 0; i < previousItems.length; i++) {
         if (

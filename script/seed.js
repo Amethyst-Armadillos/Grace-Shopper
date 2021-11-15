@@ -107,8 +107,13 @@ async function seed() {
   ]);
 
   for (let i = 0; i < users.length; i++) {
-    await users[i].setCart(await Cart.create());
+    //await users[i].setCart(await Cart.create());
+    const cart = await Cart.create();
+    await users[i].addCart(cart);
+    await users[i].update({ currentCart: cart.id });
   }
+
+  await Cart.create();
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded successfully`);

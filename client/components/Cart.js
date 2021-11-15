@@ -13,6 +13,7 @@ export const Cart = () => {
   useEffect(() => {
     if (userId && userId !== "undefined") {
       axios.get(`/api/cart/${userId}`).then((response) => {
+        console.log("userCart useEffect", response.data);
         setCart(response.data);
       });
     } else {
@@ -139,16 +140,16 @@ export const Cart = () => {
         cartTotal += productTotal;
         bouquetCount += product.quantity;
         return (
-          <div key={product.id} className="cart-items">
-            <div className="image-box">
-              <img className="cart-images" src={product.imageUrl}></img>
+          <div key={product.id} className='cart-items'>
+            <div className='image-box'>
+              <img className='cart-images' src={product.imageUrl}></img>
             </div>
-            <div className="about">
-              <h1 className="title">{product.name}</h1>
+            <div className='about'>
+              <h1 className='title'>{product.name}</h1>
             </div>
-            <div className="cart-counter">
+            <div className='cart-counter'>
               <button
-                className="cart-counter-btn"
+                className='cart-counter-btn'
                 onClick={() =>
                   decrementCount(
                     product.cartId,
@@ -159,9 +160,9 @@ export const Cart = () => {
               >
                 -
               </button>
-              <div className="cart-count">{product.quantity}</div>
+              <div className='cart-count'>{product.quantity}</div>
               <button
-                className="cart-counter-btn"
+                className='cart-counter-btn'
                 onClick={() =>
                   incrementCount(
                     product.cartId,
@@ -173,10 +174,10 @@ export const Cart = () => {
                 +
               </button>
             </div>
-            <div className="cart-prices">
-              <div className="cart-amount">${product.price}</div>
+            <div className='cart-prices'>
+              <div className='cart-amount'>${product.price}</div>
               <button
-                className="cart-remove"
+                className='cart-remove'
                 onClick={() => handleDelete(product.productId)}
               >
                 Remove
@@ -190,24 +191,24 @@ export const Cart = () => {
     }
   }
   return (
-    <div className="cart-container">
-      <div className="cart-header">
-        <h3 className="cart-title">Shopping Cart</h3>
-        <h5 className="cart-action">Remove all</h5>
+    <div className='cart-container'>
+      <div className='cart-header'>
+        <h3 className='cart-title'>Shopping Cart</h3>
+        <h5 className='cart-action'>Remove all</h5>
       </div>
 
       <div>{mappedCart}</div>
-      <div className="checkout">
-        <div className="total">
+      <div className='checkout'>
+        <div className='total'>
           <div>
-            <div className="subtotal">Sub-Total</div>
-            <div className="items">{bouquetCount} bouquets</div>
-            <div className="total-amount">${cartTotal.toFixed(2)}</div>
+            <div className='subtotal'>Sub-Total</div>
+            <div className='items'>{bouquetCount} bouquets</div>
+            <div className='total-amount'>${cartTotal.toFixed(2)}</div>
           </div>
         </div>
 
         <button
-          className="checkout-button"
+          className='checkout-button'
           onClick={() => handleCheckOut(userId)}
         >
           Checkout
