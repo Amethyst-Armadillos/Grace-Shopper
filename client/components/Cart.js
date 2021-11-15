@@ -130,17 +130,11 @@ export const Cart = () => {
   };
 
   let mappedCart;
-  let cartTotal = 0;
-  let bouquetCount = 0;
 
   if (cart) {
     if (cart.length != 0) {
       mappedCart = cart.map((product) => {
         console.log(product);
-        let productTotal = product.quantity*= product.price
-        productTotal += cartTotal
-        bouquetCount+=product.quantity
-        console.log('productTotal is ' + productTotal)
         return (
           <div key={product.id} className='cart-items'>
             <div className='image-box'>
@@ -207,8 +201,8 @@ export const Cart = () => {
         <div className='total'>
           <div>
             <div className='subtotal'>Sub-Total</div>
-            <div className='items'>{bouquetCount} bouquets</div>
-            <div className='total-amount'>{cartTotal}</div>
+            <div className='items'>2 bouquets</div>
+            <div className='total-amount'>$6.00</div>
           </div>
         </div>
 
