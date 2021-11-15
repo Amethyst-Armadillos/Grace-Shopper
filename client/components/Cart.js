@@ -30,8 +30,18 @@ export const Cart = () => {
   }, []);
 
   const handleDelete = (id) => {
+    console.log(id)
+    let guestCart = JSON.parse(localStorage.getItem('guest'))
+    console.log(guestCart)
+    if(guestCart){
+
+      let guestCardEdit = cart.filter((product) => product.productId != id)
+      console.log('arrgrggg', guestCardEdit, id)
+      setCart(guestCardEdit);
+      localStorage.setItem('guest', JSON.stringify(guestCardEdit))
+    }
     axios.delete(`/api/cart/${id}`);
-    setCart(cart.filter((product) => product.id != id));
+
   };
 
   const decrementCount = function (cartId, productId, quantity) {
@@ -163,7 +173,7 @@ export const Cart = () => {
               <div className="cart-amount">${product.price}</div>
               <button
                 className="cart-remove"
-                onClick={() => handleDelete(product.id)}
+                onClick={() => handleDelete(product.productId)}
               >
                 Remove
               </button>
