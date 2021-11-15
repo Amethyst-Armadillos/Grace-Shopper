@@ -42,6 +42,10 @@ const User = db.define("user", {
       notEmpty: true,
     },
   },
+  cartCounter: {
+    type: Sequelize.INTEGER,
+    defaultValue: 1,
+  },
 });
 
 module.exports = User;

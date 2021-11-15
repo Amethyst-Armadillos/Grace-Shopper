@@ -18,7 +18,7 @@ export const Home = (props) => {
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
           laborum ut minus corrupti dolorum dolore assumenda iste voluptate
-          dolorem pariatur.
+          dolorem pariatur. Please work
         </p>
         <a href='/products' className='btn'>
           shop now
