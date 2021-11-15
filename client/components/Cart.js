@@ -11,7 +11,7 @@ export const Cart = () => {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (userId) {
+    if (userId && userId !== 'undefined') {
       axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
       });
