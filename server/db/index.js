@@ -11,8 +11,11 @@ const CartItem = require("./models/CartItem");
 //User has one cart, Cart belongs to one User
 //Always want to create empty cart for new user
 //Can use User.getCart() to get cart
-User.belongsTo(Cart);
-Cart.hasOne(User);
+// User.belongsTo(Cart);
+// Cart.hasOne(User);
+
+User.hasMany(Cart);
+Cart.belongsTo(User);
 
 //cartItem belongs to one cart
 //to create a cart item must use product's id
@@ -20,7 +23,6 @@ Cart.hasOne(User);
 //Can use Cart.addCartItems(CartItem) to add a cart item
 //Can use Cart.removeCartItems(CartItem) to remove a cart item
 Cart.hasMany(CartItem);
-
 
 module.exports = {
   db,

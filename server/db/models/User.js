@@ -42,7 +42,7 @@ const User = db.define("user", {
       notEmpty: true,
     },
   },
-  cartCounter: {
+  currentCart: {
     type: Sequelize.INTEGER,
     defaultValue: 1,
   },

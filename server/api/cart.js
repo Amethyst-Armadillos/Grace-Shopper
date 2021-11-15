@@ -17,10 +17,13 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
+    const currentCart = user.currentCart;
     if (!user) {
       res.status(404).send("User not found");
     }
-    const cart = await user.getCart({ include: { model: CartItem } });
+    const cart = await Cart.findByPk(currentCart, {
+      include: { model: CartItem },
+    });
 
     const cartItems = await CartItem.findAll({
       where: { cartId: cart.id, fullFilled: false },
