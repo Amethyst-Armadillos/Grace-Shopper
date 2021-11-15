@@ -11,9 +11,8 @@ export const Cart = () => {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (userId && userId !== 'undefined') {
+    if (userId && userId !== "undefined") {
       axios.get(`/api/cart/${userId}`).then((response) => {
-
         setCart(response.data);
       });
     } else {
@@ -31,24 +30,21 @@ export const Cart = () => {
   }, []);
 
   const handleDelete = (id) => {
-    console.log(id)
-    let guestCart = JSON.parse(localStorage.getItem('guest'))
-    console.log(guestCart)
-    if(guestCart){
-
-      let guestCardEdit = cart.filter((product) => product.productId != id)
-      console.log('arrgrggg', guestCardEdit, id)
+    console.log(id);
+    let guestCart = JSON.parse(localStorage.getItem("guest"));
+    console.log(guestCart);
+    if (guestCart) {
+      let guestCardEdit = cart.filter((product) => product.productId != id);
+      console.log("arrgrggg", guestCardEdit, id);
       setCart(guestCardEdit);
-      localStorage.setItem('guest', JSON.stringify(guestCardEdit))
+      localStorage.setItem("guest", JSON.stringify(guestCardEdit));
     }
     axios.delete(`/api/cart/${id}`);
-
   };
 
   const decrementCount = function (cartId, productId, quantity) {
     let newQuantity = (quantity -= 1);
-
-    let cartItems = [];
+    let cart = [];
 
     if (cartId) {
       axios.put(`/api/cart/${cartId}/${productId}`, {
@@ -60,51 +56,43 @@ export const Cart = () => {
         setCart(response.data);
       });
     } else {
-
-      cartItems = JSON.parse(localStorage.getItem("guest"));
+      cart = JSON.parse(localStorage.getItem("guest"));
 
       for (let x = 0; x < cart.length; x++) {
-        if (cartItems[x].productId === productId) {
-          if (cartItems[x].quantity > 1) {
-            cartItems[x].quantity -= 1;
+        if (cart[x].productId === productId) {
+          if (cart[x].quantity > 1) {
+            cart[x].quantity -= 1;
           }
         }
       }
-      localStorage.setItem("guest", JSON.stringify(cartItems));
-      setCart(cartItems);
+      localStorage.setItem("guest", JSON.stringify(cart));
+      setCart(cart);
     }
   };
 
-  const incrementCount = async function (cartId, productId, quantity) {
+  const incrementCount = function (cartId, productId, quantity) {
     let newQuantity = (quantity += 1);
-    // let inCart = cart;
-    // console.log(inCart)
-    let inCartItems = cart
-    let cartItems = [];
+
+    let cart = [];
     if (cartId) {
       axios.put(`/api/cart/${cartId}/${productId}`, {
         quantity: newQuantity,
         cart: cart,
       });
-      for (let x = 0; x < inCartItems.length; x++) {
-        if (inCartItems[x].productId === productId) {
-          inCartItems[x].quantity += 1;
-        }
-      }
-      await axios.get(`/api/cart/${userId}`).then((response) => {
-        response.data.sort()
+
+      axios.get(`/api/cart/${userId}`).then((response) => {
         setCart(response.data);
       });
     } else {
-      cartItems = JSON.parse(localStorage.getItem("guest"));
+      cart = JSON.parse(localStorage.getItem("guest"));
 
-      for (let x = 0; x < cartItems.length; x++) {
-        if (cartItems[x].productId === productId) {
-          cartItems[x].quantity += 1;
+      for (let x = 0; x < cart.length; x++) {
+        if (cart[x].productId === productId) {
+          cart[x].quantity += 1;
         }
       }
-      localStorage.setItem("guest", JSON.stringify(cartItems));
-      setCart(cartItems);
+      localStorage.setItem("guest", JSON.stringify(cart));
+      setCart(cart);
     }
   };
 
@@ -140,22 +128,27 @@ export const Cart = () => {
   };
 
   let mappedCart;
+  let cartTotal = 0;
+  let bouquetCount = 0;
 
   if (cart) {
     if (cart.length != 0) {
       mappedCart = cart.map((product) => {
-
+        console.log(product);
+        let productTotal = product.quantity * product.price;
+        cartTotal += productTotal;
+        bouquetCount += product.quantity;
         return (
-          <div key={product.id} className='cart-items'>
-            <div className='image-box'>
-              <img className='cart-images' src={product.imageUrl}></img>
+          <div key={product.id} className="cart-items">
+            <div className="image-box">
+              <img className="cart-images" src={product.imageUrl}></img>
             </div>
-            <div className='about'>
-              <h1 className='title'>{product.name}</h1>
+            <div className="about">
+              <h1 className="title">{product.name}</h1>
             </div>
-            <div className='cart-counter'>
+            <div className="cart-counter">
               <button
-                className='cart-counter-btn'
+                className="cart-counter-btn"
                 onClick={() =>
                   decrementCount(
                     product.cartId,
@@ -166,9 +159,9 @@ export const Cart = () => {
               >
                 -
               </button>
-              <div className='cart-count'>{product.quantity}</div>
+              <div className="cart-count">{product.quantity}</div>
               <button
-                className='cart-counter-btn'
+                className="cart-counter-btn"
                 onClick={() =>
                   incrementCount(
                     product.cartId,
@@ -180,13 +173,10 @@ export const Cart = () => {
                 +
               </button>
             </div>
-            <div className='cart-prices'>
-              <div className='cart-amount'>${product.price}</div>
+            <div className="cart-prices">
+              <div className="cart-amount">${product.price}</div>
               <button
-
-
-                className='cart-remove'
-
+                className="cart-remove"
                 onClick={() => handleDelete(product.productId)}
               >
                 Remove
@@ -200,24 +190,24 @@ export const Cart = () => {
     }
   }
   return (
-    <div className='cart-container'>
-      <div className='cart-header'>
-        <h3 className='cart-title'>Shopping Cart</h3>
-        <h5 className='cart-action'>Remove all</h5>
+    <div className="cart-container">
+      <div className="cart-header">
+        <h3 className="cart-title">Shopping Cart</h3>
+        <h5 className="cart-action">Remove all</h5>
       </div>
 
       <div>{mappedCart}</div>
-      <div className='checkout'>
-        <div className='total'>
+      <div className="checkout">
+        <div className="total">
           <div>
-            <div className='subtotal'>Sub-Total</div>
-            <div className='items'>2 bouquets</div>
-            <div className='total-amount'>$6.00</div>
+            <div className="subtotal">Sub-Total</div>
+            <div className="items">{bouquetCount} bouquets</div>
+            <div className="total-amount">${cartTotal.toFixed(2)}</div>
           </div>
         </div>
 
         <button
-          className='checkout-button'
+          className="checkout-button"
           onClick={() => handleCheckOut(userId)}
         >
           Checkout
