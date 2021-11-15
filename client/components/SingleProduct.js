@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 export const SingleProduct = (props) => {
   const [Product, setData] = useState("");
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("guest")));
 
   const securityLevel = useSelector((state) =>
     state.auth ? state.auth.securityLevel : "customer"
@@ -20,28 +21,64 @@ export const SingleProduct = (props) => {
 
   const userId = useSelector((state) => state.auth.id);
 
-  const handleCart = function (id) {
+  const handleCart = async function (id) {
+    console.log(id,'hello');
+    if(userId){
     axios.put(`/api/products/${[id, userId, 1]}`);
+    }else{
+      await axios.get(`/api/products/${id}`).then((response) => {
+        let cartItem = {
+          quantity: 1,
+          productId: response.data.id,
+          name: response.data.name,
+          price: response.data.price,
+          imageUrl: response.data.imageUrl,
+          fullFilled: false,
+        };
+
+        if (cart.length >= 1) {
+          for (let i = 0; i < cart.length; i++) {
+            if (cart[i].productId === id && cart[i].fullFilled === false) {
+              cart[i].quantity += 1;
+            }
+          }
+
+          let found = cart.filter((product) => {
+            return product.productId === id && product.fullFilled === false;
+          });
+
+          if (found.length < 1) {
+            cart.push(cartItem);
+          }
+        } else {
+          cart.push(cartItem);
+        }
+
+        setCart(cart);
+
+        window.localStorage.setItem("guest", JSON.stringify(cart));
+      });
+    }
   };
 
   const handleDelete = (e) => {
     axios.delete(`/api/products/${props.match.params.id}`);
-    window.open("/products");
+    window.open("/");
   };
 
   return (
-    <div className='container'>
-      <div className='single-product-container'>
+    <div className="container">
+      <div className="single-product-container">
         <div>{Product.name}</div>
         <div>{Product.price}</div>
-        <img className='single-image' src={Product.imageUrl} />
+        <img className="single-image" src={Product.imageUrl} />
         <button onClick={() => handleCart(Product.id)}>Add to cart</button>
         {isAdmin && (
           <div>
             <Link to={`/products/${Product.id}/edit`}>
               <button>Edit Product</button>
             </Link>
-            <button className='btn' type='button' onClick={handleDelete}>
+            <button type="button" onClick={handleDelete}>
               Delete Object
             </button>
           </div>
