@@ -24,7 +24,7 @@ const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => {
           setQuantity(items.length);
         }
       }
-    }, 500);
+    }, 5000);
   });
 
   return (

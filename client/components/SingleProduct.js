@@ -63,6 +63,9 @@ export const SingleProduct = (props) => {
         window.localStorage.setItem("guest", JSON.stringify(cart));
       });
     }
+    axios.get(`/api/products/${props.match.params.id}`).then((response) => {
+      setData(response.data);
+    });
   };
 
   const handleDelete = (e) => {
