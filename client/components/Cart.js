@@ -120,7 +120,7 @@ export const Cart = () => {
       };
     });
 
-    localStorage.setItem("guest", JSON.stringify(cartData));
+    localStorage.setItem("guest", JSON.stringify([]));
     setCart([]);
     await axios.post('api/cart', cartData)
     console.log(cartData, 'this is data')

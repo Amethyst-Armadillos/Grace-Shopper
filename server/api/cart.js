@@ -33,6 +33,9 @@ router.post('/', async (req, res, next) =>{
         }
       })
     console.log(Order, 'this is the cart')
+    Order.map(async order => {
+      await CartItem.create(order)
+    })
     res.send(Order)
   } catch (error) {
    next(error)
@@ -136,6 +139,7 @@ router.put("/:id", async (req, res, next) => {
       );
     } else {
       const cartData = await CartItem.findAll({ where: { cartId: null } });
+
 
       cartData.map(async (item) => {
         await item.update({ fullFilled: true });
