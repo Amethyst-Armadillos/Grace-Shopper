@@ -104,8 +104,21 @@ router.put("/:id", async (req, res, next) => {
 
 router.put("/edit/:id", async (req, res, next) => {
   try {
+    //Brad destructured this to protect against injection attacks.
+    const price = req.body.price;
+    const name = req.body.name;
+    const stock = req.body.stock;
+    const imageUrl = req.body.imageUrl;
+
     const product = await Product.findByPk(req.params.id);
-    res.send(await product.update(req.body));
+    res.send(
+      await product.update({
+        price: price,
+        name: name,
+        stock: stock,
+        imageUrl: imageUrl,
+      })
+    );
   } catch (error) {
     next(error);
   }
@@ -113,7 +126,17 @@ router.put("/edit/:id", async (req, res, next) => {
 
 router.post("/new", async (req, res, next) => {
   try {
-    const product = await Product.create(req.body);
+    //Brad destructured this to protect against injection attacks.
+    const price = req.body.price;
+    const name = req.body.name;
+    const stock = req.body.stock;
+    const imageUrl = req.body.imageUrl;
+    const product = await Product.create({
+      price: price,
+      name: name,
+      stock: stock,
+      imageUrl: imageUrl,
+    });
     res.send(product);
   } catch (error) {
     next(error);
