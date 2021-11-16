@@ -5,34 +5,33 @@ import { logout } from "../store";
 import { useSelector } from "react-redux";
 
 const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
-  <nav className="nav-bar">
-    {isLoggedIn ? (
-      <div className="nav-bar">
-        {/* The navbar will show these links after you log in */}
-        <img src="/flowerlogo.png" className="navlogo" />
-        <Link to="/home">Home</Link>
-        <Link to="/products">Products</Link>
-        <Link to="/cart">Cart</Link>
-        <a href="#" onClick={handleClick}>
+  <nav className='nav-bar'>
+    <img src='/flowerlogo.png' className='navlogo' />
+    <nav className='nav-links'>
+      <Link to='/home'>Home</Link>
+      <Link to='/about'>about</Link>
+      <Link to='/products'>Products</Link>
+      <Link to='/contact'>Contact</Link>
+      {isLoggedIn ? (
+        <a href='#' onClick={handleClick}>
           Logout
         </a>
-        {securityLevel === "admin" && <Link to="/userinfo">UserInfo</Link>}
-      </div>
-    ) : (
-      <div className="nav-bar">
-        {/* The navbar will show these links before you log in */}
-        <img src="./flowerlogo.png" className="navlogo" />
-        <Link to="/login">Login</Link>
-        <Link to="/signup">Sign Up</Link>
-        <Link to="/products">Products</Link>
-        <Link to="/cart">Cart</Link>
-      </div>
-    )}
+      ) : (
+        <a href='/login'>Login</a>
+      )}
+      {!isLoggedIn && <a href='/signup'>Sign Up</a>}
+      {securityLevel === "admin" && <Link to='/userinfo'>UserInfo</Link>}
+    </nav>
+    <div className='icons'>
+      <Link to='/cart'>
+        <img className='shopping-cart' src='./images/cart.png' />
+      </Link>
+    </div>
   </nav>
 );
 
 const guestCheck = JSON.parse(localStorage.getItem("guest"));
-
+console.log(guestCheck);
 if (!guestCheck) {
   const guestId = [];
   localStorage.setItem("guest", JSON.stringify(guestId));
