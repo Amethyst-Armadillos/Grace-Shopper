@@ -19,7 +19,7 @@ export const NewProduct = (props) => {
     console.log(product);
   });
 
-  const handleSubmit = (data) => {
+  const bmit = (data) => {
     data.preventDefault();
     axios.post(`/api/products/new`, product).then((res) => {
       props.history.push("/products");
@@ -32,36 +32,36 @@ export const NewProduct = (props) => {
         <div>
           <h1>Add Product</h1>
           <form onSubmit={handleSubmit}>
-            <div className='form-group'>
+            <div className="form-group">
               <label>Name</label>
               <input
-                type='text'
-                name='name'
-                className='form-control'
+                type="text"
+                name="name"
+                className="form-control"
                 onChange={(e) => {
                   setProduct({ ...product, name: e.target.value });
                 }}
                 value={name}
               />
             </div>
-            <div className='form-group'>
+            <div className="form-group">
               <label>Price</label>
               <input
-                type='decimal'
-                name='price'
-                className='form-control'
+                type="decimal"
+                name="price"
+                className="form-control"
                 onChange={(e) => {
                   setProduct({ ...product, price: e.target.value });
                 }}
                 value={price}
               />
             </div>
-            <div className='form-group'>
+            <div className="form-group">
               <label>Stock</label>
               <input
-                type='number'
-                name='stock'
-                className='form-control'
+                type="number"
+                name="stock"
+                className="form-control"
                 onChange={(e) => {
                   setProduct({ ...product, stock: e.target.value });
                 }}
@@ -70,15 +70,15 @@ export const NewProduct = (props) => {
             </div>
             <label>ImageUrl</label>
             <input
-              type='text'
-              name='imageUrl'
-              className='form-control'
+              type="text"
+              name="imageUrl"
+              className="form-control"
               onChange={(e) => {
                 setProduct({ ...product, imageUrl: e.target.value });
               }}
               value={imageUrl}
             />
-            <button type='submit' className='btn btn-primary'>
+            <button type="submit" className="btn btn-primary">
               Submit
             </button>
           </form>

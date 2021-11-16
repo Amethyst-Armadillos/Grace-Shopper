@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useSelector } from "react-redux";
 
@@ -11,8 +11,8 @@ export const Home = (props) => {
   localStorage.setItem("userId", JSON.stringify(userId));
 
   return (
-    <div className='home'>
-      <div className='content'>
+    <div className="home">
+      <div className="content">
         <h3>fresh flowers</h3>
         <span> natural & beautiful flowers </span>
         <p>
@@ -20,7 +20,7 @@ export const Home = (props) => {
           laborum ut minus corrupti dolorum dolore assumenda iste voluptate
           dolorem pariatur. Please work
         </p>
-        <a href='/products' className='btn'>
+        <a href="/products" className="btn">
           shop now
         </a>
       </div>

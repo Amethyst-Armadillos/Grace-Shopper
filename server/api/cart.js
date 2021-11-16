@@ -31,11 +31,12 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:pId", async (req, res, next) => {
+router.delete("/:cartId/:pId", async (req, res, next) => {
   try {
     const cartProduct = await CartItem.findOne({
-      where: { id: req.params.pId },
+      where: { cartId: req.params.cartId, productId: req.params.pId },
     });
+    console.log("pid", req.params.pId);
     await cartProduct.destroy();
     res.json(cartProduct);
   } catch (error) {

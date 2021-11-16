@@ -11,15 +11,13 @@ export const Cart = () => {
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (userId && userId !== 'undefined') {
+    if (userId && userId !== "undefined") {
       axios.get(`/api/cart/${userId}`).then((response) => {
-
         setCart(response.data);
       });
     } else {
       let items = localStorage.getItem("guest");
       if (items) {
-        console.log(JSON.parse(items));
         let cartArr = JSON.parse(items);
         let guestCart = cartArr.filter((product) => {
           return product.fullFilled !== true;
@@ -30,19 +28,17 @@ export const Cart = () => {
     }
   }, []);
 
-  const handleDelete = (id) => {
-    console.log(id)
-    let guestCart = JSON.parse(localStorage.getItem('guest'))
-    console.log(guestCart)
-    if(guestCart){
-
-      let guestCardEdit = cart.filter((product) => product.productId != id)
-      console.log('arrgrggg', guestCardEdit, id)
-      setCart(guestCardEdit);
-      localStorage.setItem('guest', JSON.stringify(guestCardEdit))
+  const handleDelete = (cartId, id) => {
+    if (userId) {
+      axios.delete(`/api/cart/${cartId}/${id}`);
     }
-    axios.delete(`/api/cart/${id}`);
 
+    let guestCart = JSON.parse(localStorage.getItem("guest"));
+    if (guestCart) {
+      let guestCardEdit = cart.filter((product) => product.productId != id);
+      setCart(guestCardEdit);
+      localStorage.setItem("guest", JSON.stringify(guestCardEdit));
+    }
   };
 
   const decrementCount = function (cartId, productId, quantity) {
@@ -60,7 +56,6 @@ export const Cart = () => {
         setCart(response.data);
       });
     } else {
-
       cartItems = JSON.parse(localStorage.getItem("guest"));
 
       for (let x = 0; x < cart.length; x++) {
@@ -79,7 +74,7 @@ export const Cart = () => {
     let newQuantity = (quantity += 1);
     // let inCart = cart;
     // console.log(inCart)
-    let inCartItems = cart
+    let inCartItems = cart;
     let cartItems = [];
     if (cartId) {
       axios.put(`/api/cart/${cartId}/${productId}`, {
@@ -92,7 +87,7 @@ export const Cart = () => {
         }
       }
       await axios.get(`/api/cart/${userId}`).then((response) => {
-        response.data.sort()
+        response.data.sort();
         setCart(response.data);
       });
     } else {
@@ -144,18 +139,17 @@ export const Cart = () => {
   if (cart) {
     if (cart.length != 0) {
       mappedCart = cart.map((product) => {
-
         return (
-          <div key={product.id} className='cart-items'>
-            <div className='image-box'>
-              <img className='cart-images' src={product.imageUrl}></img>
+          <div key={product.id} className="cart-items">
+            <div className="image-box">
+              <img className="cart-images" src={product.imageUrl}></img>
             </div>
-            <div className='about'>
-              <h1 className='title'>{product.name}</h1>
+            <div className="about">
+              <h1 className="title">{product.name}</h1>
             </div>
-            <div className='cart-counter'>
+            <div className="cart-counter">
               <button
-                className='cart-counter-btn'
+                className="cart-counter-btn"
                 onClick={() =>
                   decrementCount(
                     product.cartId,
@@ -166,9 +160,9 @@ export const Cart = () => {
               >
                 -
               </button>
-              <div className='cart-count'>{product.quantity}</div>
+              <div className="cart-count">{product.quantity}</div>
               <button
-                className='cart-counter-btn'
+                className="cart-counter-btn"
                 onClick={() =>
                   incrementCount(
                     product.cartId,
@@ -180,14 +174,11 @@ export const Cart = () => {
                 +
               </button>
             </div>
-            <div className='cart-prices'>
-              <div className='cart-amount'>${product.price}</div>
+            <div className="cart-prices">
+              <div className="cart-amount">${product.price}</div>
               <button
-
-
-                className='cart-remove'
-
-                onClick={() => handleDelete(product.productId)}
+                className="cart-remove"
+                onClick={() => handleDelete(product.cartId, product.productId)}
               >
                 Remove
               </button>
@@ -200,24 +191,24 @@ export const Cart = () => {
     }
   }
   return (
-    <div className='cart-container'>
-      <div className='cart-header'>
-        <h3 className='cart-title'>Shopping Cart</h3>
-        <h5 className='cart-action'>Remove all</h5>
+    <div className="cart-container">
+      <div className="cart-header">
+        <h3 className="cart-title">Shopping Cart</h3>
+        <h5 className="cart-action">Remove all</h5>
       </div>
 
       <div>{mappedCart}</div>
-      <div className='checkout'>
-        <div className='total'>
+      <div className="checkout">
+        <div className="total">
           <div>
-            <div className='subtotal'>Sub-Total</div>
-            <div className='items'>2 bouquets</div>
-            <div className='total-amount'>$6.00</div>
+            <div className="subtotal">Sub-Total</div>
+            <div className="items">2 bouquets</div>
+            <div className="total-amount">$6.00</div>
           </div>
         </div>
 
         <button
-          className='checkout-button'
+          className="checkout-button"
           onClick={() => handleCheckOut(userId)}
         >
           Checkout
