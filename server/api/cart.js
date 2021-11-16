@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
 
 router.post('/', async (req, res, next) =>{
   try {
-     console.log(req.body ,' this is guest cart data')
+
      await Cart.create()
     let cart = await Cart.findOne({
       order: [ [ 'id', 'DESC' ]],
@@ -32,8 +32,20 @@ router.post('/', async (req, res, next) =>{
     quantity: product.quantity
         }
       })
-    console.log(Order, 'this is the cart')
+
     Order.map(async order => {
+      let product = await Product.findByPk(order.productId)
+      let newStock = function notZero (){
+        if(product.stock - order.quantity < 0){
+          return 0
+        }else{
+          return product.stock - order.quantity
+        }
+
+      }
+      await product.update({stock: newStock()})
+      console.log(product)
+
       await CartItem.create(order)
     })
     res.send(Order)
@@ -118,7 +130,26 @@ router.put("/:id", async (req, res, next) => {
 
 
 
-      const cartData = await CartItem.findAll({ where: { cartId: cart[0].id } });
+
+
+      let cartData = await CartItem.findAll({ where: { cartId: user.currentCart } });
+
+      cartData.map(async order => {
+        let product = await Product.findByPk(order.productId)
+
+        let newStock = function notZero (){
+          if(product.stock - order.quantity < 0){
+            return 0
+          }else{
+            return product.stock - order.quantity
+          }
+
+        }
+
+
+        await product.update({stock: newStock()})
+      })
+
 
 
       cartData.map(async (item) => {
