@@ -72,14 +72,18 @@ export const AllProducts = (props) => {
             alt={product.name}
           />
         </Link>
-        <button
-          id='addCart'
-          type='button'
-          className='btn'
-          onClick={() => handleCart(product.id)}
-        >
-          Add to Cart
-        </button>
+        {product.stock > 1 ? (
+          <button
+            id='addCart'
+            type='button'
+            className='btn'
+            onClick={() => handleCart(product.id)}
+          >
+            Add to Cart
+          </button>
+        ) : (
+          <p>Out of stock</p>
+        )}
         {isAdmin && (
           <Link to={`/products/${product.id}/edit`}>
             <button type='button'>Edit Product</button>

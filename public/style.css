@@ -51,7 +51,10 @@ nav .nav-links {
 }
 
 nav .icons {
+  display: flex;
+  align-items: center;
   height: 50px;
+  padding: 0;
 }
 nav .icons .shopping-cart {
   height: 30px;
