@@ -6,15 +6,28 @@ module.exports = router;
 
 router.post("/login", async (req, res, next) => {
   try {
-    res.send({ token: await User.authenticate(req.body) });
+    //Brad destructured this to protect against injection attacks.
+    const username = req.body.username;
+    const password = req.body.password;
+    res.send({
+      token: await User.authenticate({
+        username: username,
+        password: password,
+      }),
+    });
   } catch (err) {
     next(err);
   }
 });
 
+//this returns an error that says user.setCart is not a function.
+//That needs to be fixed still but I've destructured it to protect against injection attacks.
+
 router.post("/signup", async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
+    const username= req.body.username;
+    const password = req.body.password;
+    const user = await User.create({username: username, password: password});
     user.setCart(await Cart.create());
     res.send({ token: await user.generateToken() });
   } catch (err) {

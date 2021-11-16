@@ -41,6 +41,7 @@ router.delete("/:id", (req, res, next) => {
     .catch(next);
 });
 
+//@chase this route is not working properly.  As you fix it make sure to destructure the req.body to protect against injection.
 router.put("/edit/:id", (req, res, next) => {
   try {
     User.update(req.body, {
