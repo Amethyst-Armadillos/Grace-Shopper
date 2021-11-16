@@ -13,6 +13,34 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post('/', async (req, res, next) =>{
+  try {
+     console.log(req.body ,' this is guest cart data')
+     await Cart.create()
+    let cart = await Cart.findOne({
+      order: [ [ 'id', 'DESC' ]],
+      });
+      let Order = req.body.map(product => {
+        return {
+          cartId: cart.id,
+          fullFilled: product.fullFilled,
+    imageUrl: product.imageUrl,
+    name: product.name,
+    price: product.price,
+    productId: product.productId,
+    quantity: product.quantity
+        }
+      })
+    console.log(Order, 'this is the cart')
+    Order.map(async order => {
+      await CartItem.create(order)
+    })
+    res.send(Order)
+  } catch (error) {
+   next(error)
+  }
+})
 //Returns the cart of the user given userId
 router.get("/:id", async (req, res, next) => {
   try {
@@ -86,12 +114,23 @@ router.put("/:id", async (req, res, next) => {
     if (req.params.id != "null") {
       const user = await User.findByPk(req.params.id);
 
-      const cart = await user.getCart({ include: { model: CartItem } });
-      const cartData = await CartItem.findAll({ where: { cartId: cart.id } });
+      const cart = await Cart.findAll({where: {  userId : req.params.id}});
+
+
+
+      const cartData = await CartItem.findAll({ where: { cartId: cart[0].id } });
+
 
       cartData.map(async (item) => {
         await item.update({ fullFilled: true });
       });
+      await Cart.create()
+      let newCart = await Cart.findOne({
+        order: [ [ 'id', 'DESC' ]],
+        });
+
+        user.update({currentCart : newCart.id})
+        console.log(user, 'this is user')
 
       res.send(
         cartData.filter((cart) => {
@@ -100,6 +139,7 @@ router.put("/:id", async (req, res, next) => {
       );
     } else {
       const cartData = await CartItem.findAll({ where: { cartId: null } });
+
 
       cartData.map(async (item) => {
         await item.update({ fullFilled: true });
