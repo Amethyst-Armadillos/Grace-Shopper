@@ -14,45 +14,43 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) =>{
+router.post("/", async (req, res, next) => {
   try {
-
-     await Cart.create()
+    await Cart.create();
     let cart = await Cart.findOne({
-      order: [ [ 'id', 'DESC' ]],
-      });
-      let Order = req.body.map(product => {
-        return {
-          cartId: cart.id,
-          fullFilled: product.fullFilled,
-    imageUrl: product.imageUrl,
-    name: product.name,
-    price: product.price,
-    productId: product.productId,
-    quantity: product.quantity
+      order: [["id", "DESC"]],
+    });
+    let Order = req.body.map((product) => {
+      return {
+        cartId: cart.id,
+        fullFilled: product.fullFilled,
+        imageUrl: product.imageUrl,
+        name: product.name,
+        price: product.price,
+        productId: product.productId,
+        quantity: product.quantity,
+      };
+    });
+
+    Order.map(async (order) => {
+      let product = await Product.findByPk(order.productId);
+      let newStock = function notZero() {
+        if (product.stock - order.quantity < 0) {
+          return 0;
+        } else {
+          return product.stock - order.quantity;
         }
-      })
+      };
+      await product.update({ stock: newStock() });
+      console.log(product);
 
-    Order.map(async order => {
-      let product = await Product.findByPk(order.productId)
-      let newStock = function notZero (){
-        if(product.stock - order.quantity < 0){
-          return 0
-        }else{
-          return product.stock - order.quantity
-        }
-
-      }
-      await product.update({stock: newStock()})
-      console.log(product)
-
-      await CartItem.create(order)
-    })
-    res.send(Order)
+      await CartItem.create(order);
+    });
+    res.send(Order);
   } catch (error) {
-   next(error)
+    next(error);
   }
-})
+});
 //Returns the cart of the user given userId
 router.get("/:id", async (req, res, next) => {
   try {
@@ -74,10 +72,10 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:pId", async (req, res, next) => {
+router.delete("/:cartId/:pId", async (req, res, next) => {
   try {
     const cartProduct = await CartItem.findOne({
-      where: { id: req.params.pId },
+      where: { productId: req.params.pId, cartId: req.params.cartId },
     });
     await cartProduct.destroy();
     res.json(cartProduct);
@@ -126,42 +124,36 @@ router.put("/:id", async (req, res, next) => {
     if (req.params.id != "null") {
       const user = await User.findByPk(req.params.id);
 
-      const cart = await Cart.findAll({where: {  userId : req.params.id}});
+      const cart = await Cart.findAll({ where: { userId: req.params.id } });
 
+      let cartData = await CartItem.findAll({
+        where: { cartId: user.currentCart },
+      });
 
+      cartData.map(async (order) => {
+        let product = await Product.findByPk(order.productId);
 
-
-
-      let cartData = await CartItem.findAll({ where: { cartId: user.currentCart } });
-
-      cartData.map(async order => {
-        let product = await Product.findByPk(order.productId)
-
-        let newStock = function notZero (){
-          if(product.stock - order.quantity < 0){
-            return 0
-          }else{
-            return product.stock - order.quantity
+        let newStock = function notZero() {
+          if (product.stock - order.quantity < 0) {
+            return 0;
+          } else {
+            return product.stock - order.quantity;
           }
+        };
 
-        }
-
-
-        await product.update({stock: newStock()})
-      })
-
-
+        await product.update({ stock: newStock() });
+      });
 
       cartData.map(async (item) => {
         await item.update({ fullFilled: true });
       });
-      await Cart.create()
+      await Cart.create();
       let newCart = await Cart.findOne({
-        order: [ [ 'id', 'DESC' ]],
-        });
+        order: [["id", "DESC"]],
+      });
 
-        user.update({currentCart : newCart.id})
-        console.log(user, 'this is user')
+      user.update({ currentCart: newCart.id });
+      console.log(user, "this is user");
 
       res.send(
         cartData.filter((cart) => {
@@ -170,7 +162,6 @@ router.put("/:id", async (req, res, next) => {
       );
     } else {
       const cartData = await CartItem.findAll({ where: { cartId: null } });
-
 
       cartData.map(async (item) => {
         await item.update({ fullFilled: true });

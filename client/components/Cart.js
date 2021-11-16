@@ -30,17 +30,18 @@ export const Cart = () => {
     }
   }, []);
 
-  const handleDelete = (id) => {
-    console.log(id);
+  const handleDelete = (cartId, id) => {
     let guestCart = JSON.parse(localStorage.getItem("guest"));
-    console.log(guestCart);
+    console.log("cart", cartId, "id", id);
+    if (userId) {
+      axios.delete(`/api/cart/${cartId}/${id}`);
+    }
+
     if (guestCart) {
       let guestCardEdit = cart.filter((product) => product.productId != id);
-      console.log("arrgrggg", guestCardEdit, id);
       setCart(guestCardEdit);
       localStorage.setItem("guest", JSON.stringify(guestCardEdit));
     }
-    axios.delete(`/api/cart/${id}`);
   };
 
   const decrementCount = function (cartId, productId, quantity) {
@@ -102,30 +103,29 @@ export const Cart = () => {
       axios.put(`/api/cart/${id}`).then((response) => {
         setCart(response.data);
       });
-    }else{
-    let cartData = JSON.parse(localStorage.getItem("guest"));
+    } else {
+      let cartData = JSON.parse(localStorage.getItem("guest"));
 
-    cartData = cartData.map((product) => {
-      return {
-        cartId: product.CartId,
-        createdAt: product.createdAt,
-        fullFilled: true,
-        id: product.id,
-        imageUrl: product.imageUrl,
-        name: product.name,
-        price: product.price,
-        productId: product.productId,
-        quantity: product.quantity,
-        updatedAt: product.updatedAt,
-      };
-    });
+      cartData = cartData.map((product) => {
+        return {
+          cartId: product.CartId,
+          createdAt: product.createdAt,
+          fullFilled: true,
+          id: product.id,
+          imageUrl: product.imageUrl,
+          name: product.name,
+          price: product.price,
+          productId: product.productId,
+          quantity: product.quantity,
+          updatedAt: product.updatedAt,
+        };
+      });
 
-    localStorage.setItem("guest", JSON.stringify([]));
-    setCart([]);
-    await axios.post('api/cart', cartData)
-    console.log(cartData, 'this is data')
-
-  }
+      localStorage.setItem("guest", JSON.stringify([]));
+      setCart([]);
+      await axios.post("api/cart", cartData);
+      console.log(cartData, "this is data");
+    }
   };
 
   let mappedCart;
@@ -140,16 +140,16 @@ export const Cart = () => {
         cartTotal += productTotal;
         bouquetCount += product.quantity;
         return (
-          <div key={product.id} className='cart-items'>
-            <div className='image-box'>
-              <img className='cart-images' src={product.imageUrl}></img>
+          <div key={product.id} className="cart-items">
+            <div className="image-box">
+              <img className="cart-images" src={product.imageUrl}></img>
             </div>
-            <div className='about'>
-              <h1 className='title'>{product.name}</h1>
+            <div className="about">
+              <h1 className="title">{product.name}</h1>
             </div>
-            <div className='cart-counter'>
+            <div className="cart-counter">
               <button
-                className='cart-counter-btn'
+                className="cart-counter-btn"
                 onClick={() =>
                   decrementCount(
                     product.cartId,
@@ -160,9 +160,9 @@ export const Cart = () => {
               >
                 -
               </button>
-              <div className='cart-count'>{product.quantity}</div>
+              <div className="cart-count">{product.quantity}</div>
               <button
-                className='cart-counter-btn'
+                className="cart-counter-btn"
                 onClick={() =>
                   incrementCount(
                     product.cartId,
@@ -174,11 +174,11 @@ export const Cart = () => {
                 +
               </button>
             </div>
-            <div className='cart-prices'>
-              <div className='cart-amount'>${product.price}</div>
+            <div className="cart-prices">
+              <div className="cart-amount">${product.price}</div>
               <button
-                className='cart-remove'
-                onClick={() => handleDelete(product.productId)}
+                className="cart-remove"
+                onClick={() => handleDelete(product.cartId, product.productId)}
               >
                 Remove
               </button>
@@ -191,24 +191,24 @@ export const Cart = () => {
     }
   }
   return (
-    <div className='cart-container'>
-      <div className='cart-header'>
-        <h3 className='cart-title'>Shopping Cart</h3>
-        <h5 className='cart-action'>Remove all</h5>
+    <div className="cart-container">
+      <div className="cart-header">
+        <h3 className="cart-title">Shopping Cart</h3>
+        <h5 className="cart-action">Remove all</h5>
       </div>
 
       <div>{mappedCart}</div>
-      <div className='checkout'>
-        <div className='total'>
+      <div className="checkout">
+        <div className="total">
           <div>
-            <div className='subtotal'>Sub-Total</div>
-            <div className='items'>{bouquetCount} bouquets</div>
-            <div className='total-amount'>${cartTotal.toFixed(2)}</div>
+            <div className="subtotal">Sub-Total</div>
+            <div className="items">{bouquetCount} bouquets</div>
+            <div className="total-amount">${cartTotal.toFixed(2)}</div>
           </div>
         </div>
 
         <button
-          className='checkout-button'
+          className="checkout-button"
           onClick={() => handleCheckOut(userId)}
         >
           Checkout
