@@ -3,8 +3,8 @@ import axios from "axios";
 
 const OrderHistory = () => {
   const [history, setHistory] = useState([]);
-
   const userId = localStorage.getItem("userId");
+  console.log(userId);
 
   useEffect(() => {
     if (userId) {
