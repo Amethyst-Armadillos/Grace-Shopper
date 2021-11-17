@@ -1,4 +1,6 @@
 const Product = require("../db/models/Products");
+const {requireToken, isAdmin} = require("./gatekeepingMiddleware")
+
 const {
   models: { User, CartItem, Cart },
 } = require("../db");
@@ -14,7 +16,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     const productId = req.params.id;
     const deleteProduct = await Product.destroy({ where: { id: productId } });
@@ -102,7 +104,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/edit/:id", async (req, res, next) => {
+router.put("/edit/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     //Brad destructured this to protect against injection attacks.
     const price = req.body.price;
@@ -124,7 +126,7 @@ router.put("/edit/:id", async (req, res, next) => {
   }
 });
 
-router.post("/new", async (req, res, next) => {
+router.post("/new", requireToken, isAdmin, async (req, res, next) => {
   try {
     //Brad destructured this to protect against injection attacks.
     const price = req.body.price;

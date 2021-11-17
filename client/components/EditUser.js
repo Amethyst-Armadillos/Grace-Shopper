@@ -23,10 +23,10 @@ export const EditUser = (props) => {
   });
 
   const [user, setUser] = useState({});
-
+  const tokenFromLocalStorage = window.localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get(`/api/users/${props.match.params.id}`)
+      .get(`/api/users/${props.match.params.id}`,{ headers: {authorization: tokenFromLocalStorage } })
       .then((res) => {
         setUser(res.data);
       })
@@ -72,7 +72,7 @@ export const EditUser = (props) => {
             <button
               onClick={() => {
                 axios
-                  .put(`/api/users/${props.match.params.id}`, user)
+                  .put(`/api/users/${props.match.params.id}`,{ headers: {authorization: tokenFromLocalStorage} }, user)
 
                   .then((res) => {
                     props.history.push("/users");

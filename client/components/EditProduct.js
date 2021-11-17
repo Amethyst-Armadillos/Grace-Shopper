@@ -7,8 +7,10 @@ export const EditProduct = (props) => {
     return state.auth.securityLevel === "admin";
   });
   const [product, setProduct] = useState({});
+
+  const tokenFromLocalStorage = window.localStorage.getItem("token");
   useEffect(() => {
-    axios.get(`/api/products/${props.match.params.id}`).then((res) => {
+    axios.get(`/api/products/${props.match.params.id}`, { headers: {authorization: tokenFromLocalStorage } }).then((res) => {
       setProduct(res.data);
     });
   }, []);
@@ -16,7 +18,7 @@ export const EditProduct = (props) => {
   const handleSubmit = (data) => {
     data.preventDefault();
     const id = props.match.params.id[0];
-    axios.put(`/api/products/edit/${id}`, product).then((res) => {
+    axios.put(`/api/products/edit/${id}`, product, { headers: {authorization: tokenFromLocalStorage } }).then((res) => {
       props.history.push("/");
     });
   };
