@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { connect, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
+const tokenFromLocalStorage = window.localStorage.getItem("token");
+
+
 export const AllProducts = (props) => {
   const [data, setData] = useState([]);
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("guest")));
   useEffect(() => {
-    axios.get(`/api/products`).then((response) => {
+    axios.get(`/api/products`, { headers: {authorization: tokenFromLocalStorage } }).then((response) => {
       setData(response.data);
     });
   }, []);

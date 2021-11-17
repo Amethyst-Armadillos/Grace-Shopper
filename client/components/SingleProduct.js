@@ -13,6 +13,8 @@ export const SingleProduct = (props) => {
 
   const isAdmin = securityLevel === "admin";
 
+  const tokenFromLocalStorage = window.localStorage.getItem("token");
+
   useEffect(() => {
     axios.get(`/api/products/${props.match.params.id}`).then((response) => {
       setData(response.data);
@@ -62,7 +64,7 @@ export const SingleProduct = (props) => {
   };
 
   const handleDelete = (e) => {
-    axios.delete(`/api/products/${props.match.params.id}`);
+    axios.delete(`/api/products/${props.match.params.id}`, { headers: {authorization: tokenFromLocalStorage } } );
     window.open("/");
   };
 

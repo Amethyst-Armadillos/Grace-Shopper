@@ -14,6 +14,8 @@ export const NewProduct = (props) => {
       "https://images.unsplash.com/photo-1585157603209-378be66bede1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=912&q=80",
   });
 
+  const tokenFromLocalStorage = window.localStorage.getItem("token");
+
   useEffect(() => {
     console.log("useEffect");
     console.log(product);
@@ -21,7 +23,7 @@ export const NewProduct = (props) => {
 
   const handleSubmit = (data) => {
     data.preventDefault();
-    axios.post(`/api/products/new`,{ headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }, product).then((res) => {
+    axios.post(`/api/products/new`,product, { headers: {authorization: tokenFromLocalStorage } }).then((res) => {
       props.history.push("/products");
     });
   };

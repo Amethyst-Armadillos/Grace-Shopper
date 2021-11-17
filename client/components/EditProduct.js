@@ -7,8 +7,10 @@ export const EditProduct = (props) => {
     return state.auth.securityLevel === "admin";
   });
   const [product, setProduct] = useState({});
+
+  const tokenFromLocalStorage = window.localStorage.getItem("token");
   useEffect(() => {
-    axios.get(`/api/products/${props.match.params.id}`, { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }).then((res) => {
+    axios.get(`/api/products/${props.match.params.id}`, { headers: {authorization: tokenFromLocalStorage } }).then((res) => {
       setProduct(res.data);
     });
   }, []);
@@ -16,7 +18,7 @@ export const EditProduct = (props) => {
   const handleSubmit = (data) => {
     data.preventDefault();
     const id = props.match.params.id[0];
-    axios.put(`/api/products/edit/${id}`, { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }, product).then((res) => {
+    axios.put(`/api/products/edit/${id}`, product, { headers: {authorization: tokenFromLocalStorage } }).then((res) => {
       props.history.push("/");
     });
   };
