@@ -7,8 +7,22 @@ const router = require("express").Router();
 router.get("/", async (req, res, next) => {
   try {
     const cartData = await CartItem.findAll();
-
     res.send(cartData);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/history/:userId", async (req, res, next) => {
+  try {
+    const history = await CartItem.findAll({
+      where: {
+        fullFilled: true,
+        cartId: req.params.userId,
+      },
+    });
+    console.log(history);
+    res.send(history);
   } catch (error) {
     next(error);
   }
@@ -20,6 +34,7 @@ router.post("/", async (req, res, next) => {
     let cart = await Cart.findOne({
       order: [["id", "DESC"]],
     });
+    console.log(cart, "this is cart");
     let Order = req.body.map((product) => {
       return {
         cartId: cart.id,
@@ -46,6 +61,7 @@ router.post("/", async (req, res, next) => {
 
       await CartItem.create(order);
     });
+
     res.send(Order);
   } catch (error) {
     next(error);

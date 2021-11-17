@@ -11,6 +11,7 @@ import { UserInfo } from "./components/UserInfo";
 import { EditUser } from "./components/EditUser";
 import { EditProduct } from "./components/EditProduct";
 import { NewProduct } from "./components/NewProduct";
+import OrderHistory from "./components/OrderHistory";
 
 /**
  * COMPONENT
@@ -26,17 +27,18 @@ class Routes extends Component {
     return (
       <div>
         <Switch>
-          <Route path='/home' exact component={Home} />
-          {!isLoggedIn && <Route path='/login' component={Login} />}
-          {!isLoggedIn && <Route path='/signup' component={Signup} />}
-          <Route exact path='/products' component={AllProducts} />
-          <Route exact path='/products/:id' component={SingleProduct} />
-          <Route exact path='/cart' component={Cart} />
-          <Route exact path='/userinfo' component={UserInfo} />
-          <Route exact path='/users/:id' component={EditUser} />
-          <Route exact path='/products/:id/edit' component={EditProduct} />
-          <Route exact path='/create/products' component={NewProduct} />
-          <Redirect to='/home' />
+          <Route path="/home" exact component={Home} />
+          {!isLoggedIn && <Route path="/login" component={Login} />}
+          {!isLoggedIn && <Route path="/signup" component={Signup} />}
+          <Route exact path="/products" component={AllProducts} />
+          <Route exact path="/products/:id" component={SingleProduct} />
+          <Route exact path="/cart" component={Cart} />
+          <Route exact path="/userinfo" component={UserInfo} />
+          <Route exact path="/history" component={OrderHistory} />
+          <Route exact path="/users/:id" component={EditUser} />
+          <Route exact path="/products/:id/edit" component={EditProduct} />
+          <Route exact path="/create/products" component={NewProduct} />
+          <Redirect to="/home" />
         </Switch>
       </div>
     );

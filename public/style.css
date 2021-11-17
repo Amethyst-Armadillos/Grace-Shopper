@@ -337,3 +337,59 @@ form div {
   margin-right: 0;
   padding: 20px;
 }
+
+.history {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.history-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.history-table thead tr {
+  background-color: #f48498;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px 15px;
+}
+
+.history-table img {
+  height: 100px;
+  width: 100px;
+}
+
+.history-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+  background-color: #ffffff;
+}
+
+.history-table tbody tr:last-of-type {
+  border-bottom: 2px solid #f48498;
+}
+
+.history-table tfoot {
+  background-color: #ffe6e8;
+}
+
+.history-table tbody tr:hover {
+  filter: brightness(90%);
+}
+
+.nothing {
+  font-size: x-large;
+  background-color: white;
+  text-align: center;
+}
