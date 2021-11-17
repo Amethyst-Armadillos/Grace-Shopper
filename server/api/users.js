@@ -3,9 +3,11 @@ const {
   models: { User, Cart, CartItem },
 } = require("../db");
 const Product = require("../db/models/Products");
+const {requireToken, isAdmin} = require("./gatekeepingMiddleware")
 module.exports = router;
 
-router.get("/", async (req, res, next) => {
+//Before I even enter this route, I'm going to make sure that I'm logged in first.
+router.get("/", requireToken, isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
@@ -20,7 +22,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     let user = await User.findAll({
       where: { id: req.params.id },
@@ -33,7 +35,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", requireToken, isAdmin, (req, res, next) => {
   User.destroy({
     where: { id: req.params.id },
   })
@@ -42,7 +44,7 @@ router.delete("/:id", (req, res, next) => {
 });
 
 //@chase this route is not working properly.  As you fix it make sure to destructure the req.body to protect against injection.
-router.put("/edit/:id", (req, res, next) => {
+router.put("/edit/:id", requireToken, isAdmin, (req, res, next) => {
   try {
     User.update(req.body, {
       where: { id: req.params.id },

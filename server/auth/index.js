@@ -7,6 +7,7 @@ module.exports = router;
 router.post("/login", async (req, res, next) => {
   try {
     //Brad destructured this to protect against injection attacks.
+    //the User.authenticate function returns a token if that username and PW are valid.
     const username = req.body.username;
     const password = req.body.password;
     res.send({
