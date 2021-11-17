@@ -8,7 +8,7 @@ const router = require("express").Router();
 router.get("/", async (req, res, next) => {
   try {
     const products = await Product.findAll();
-    res.json(products);
+    res.send(products);
   } catch (err) {
     next(err);
   }

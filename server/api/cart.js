@@ -74,9 +74,15 @@ router.get("/:id", async (req, res, next) => {
 
 router.delete("/:cartId/:pId", async (req, res, next) => {
   try {
+    console.log('yes this is in delete while logged in', req.body)
+    const user = await User.findByPk(req.params.userId)
     const cartProduct = await CartItem.findOne({
-      where: { productId: req.params.pId, cartId: req.params.cartId },
+
+      where: { id: req.params.pId , cartId: user.currentCart },
+
+    
     });
+    console.log(cartProduct, 'what guy is delete')
     await cartProduct.destroy();
     res.json(cartProduct);
   } catch (error) {
@@ -124,11 +130,14 @@ router.put("/:id", async (req, res, next) => {
     if (req.params.id != "null") {
       const user = await User.findByPk(req.params.id);
 
-      const cart = await Cart.findAll({ where: { userId: req.params.id } });
+      const cart = await Cart.findAll({where: {  userId : req.params.id, id:user.currentCart}});
+
+     
 
       let cartData = await CartItem.findAll({
         where: { cartId: user.currentCart },
       });
+
 
       cartData.map(async (order) => {
         let product = await Product.findByPk(order.productId);
@@ -152,8 +161,11 @@ router.put("/:id", async (req, res, next) => {
         order: [["id", "DESC"]],
       });
 
-      user.update({ currentCart: newCart.id });
-      console.log(user, "this is user");
+
+        user.update({currentCart : newCart.id})
+        newCart.update({userId: user.id})
+
+
 
       res.send(
         cartData.filter((cart) => {

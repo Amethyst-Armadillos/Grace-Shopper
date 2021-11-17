@@ -22,7 +22,9 @@ export const AllProducts = (props) => {
     if (userId) {
       axios.put(`/api/products/${[id, userId, 1]}`);
     } else {
-      await axios.get(`/api/products/${id}`).then((response) => {
+     let product = await axios.get(`/api/products/${id}`)
+      let response = product
+
         let cartItem = {
           quantity: 1,
           productId: response.data.id,
@@ -53,7 +55,7 @@ export const AllProducts = (props) => {
         setCart(cart);
 
         window.localStorage.setItem("guest", JSON.stringify(cart));
-      });
+
     }
   };
 

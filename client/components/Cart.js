@@ -30,6 +30,7 @@ export const Cart = () => {
     }
   }, []);
 
+
   const handleDelete = (cartId, id) => {
     let guestCart = JSON.parse(localStorage.getItem("guest"));
     console.log("cart", cartId, "id", id);
@@ -42,11 +43,12 @@ export const Cart = () => {
       setCart(guestCardEdit);
       localStorage.setItem("guest", JSON.stringify(guestCardEdit));
     }
+
   };
 
-  const decrementCount = function (cartId, productId, quantity) {
+  const decrementCount = async function (cartId, productId, quantity) {
     let newQuantity = (quantity -= 1);
-    let cart = [];
+    let items = [];
 
     if (cartId) {
       axios.put(`/api/cart/${cartId}/${productId}`, {
@@ -54,25 +56,26 @@ export const Cart = () => {
         cart: cart,
       });
 
-      axios.get(`/api/cart/${userId}`).then((response) => {
+      let response = await axios.get(`/api/cart/${userId}`)
+
         setCart(response.data);
-      });
+
     } else {
-      cart = JSON.parse(localStorage.getItem("guest"));
+      items = JSON.parse(localStorage.getItem("guest"));
 
       for (let x = 0; x < cart.length; x++) {
-        if (cart[x].productId === productId) {
-          if (cart[x].quantity > 1) {
-            cart[x].quantity -= 1;
+        if (items[x].productId === productId) {
+          if (items[x].quantity > 1) {
+            items[x].quantity -= 1;
           }
         }
       }
-      localStorage.setItem("guest", JSON.stringify(cart));
-      setCart(cart);
+      localStorage.setItem("guest", JSON.stringify(items));
+      setCart(items);
     }
   };
 
-  const incrementCount = function (cartId, productId, quantity) {
+  const incrementCount = async function (cartId, productId, quantity) {
     let newQuantity = (quantity += 1);
 
     let cart = [];
@@ -82,9 +85,9 @@ export const Cart = () => {
         cart: cart,
       });
 
-      axios.get(`/api/cart/${userId}`).then((response) => {
+      let response = await axios.get(`/api/cart/${userId}`)
         setCart(response.data);
-      });
+
     } else {
       cart = JSON.parse(localStorage.getItem("guest"));
 
@@ -99,32 +102,33 @@ export const Cart = () => {
   };
 
   const handleCheckOut = async (id) => {
-    if (id) {
-      axios.put(`/api/cart/${id}`).then((response) => {
+    if (id && id !== 'undefined') {
+      let response = await axios.put(`/api/cart/${id}`)
         setCart(response.data);
-      });
-    } else {
-      let cartData = JSON.parse(localStorage.getItem("guest"));
 
-      cartData = cartData.map((product) => {
-        return {
-          cartId: product.CartId,
-          createdAt: product.createdAt,
-          fullFilled: true,
-          id: product.id,
-          imageUrl: product.imageUrl,
-          name: product.name,
-          price: product.price,
-          productId: product.productId,
-          quantity: product.quantity,
-          updatedAt: product.updatedAt,
-        };
-      });
 
-      localStorage.setItem("guest", JSON.stringify([]));
-      setCart([]);
-      await axios.post("api/cart", cartData);
-      console.log(cartData, "this is data");
+    }else{
+    let cartData = JSON.parse(localStorage.getItem("guest"));
+
+    cartData = cartData.map((product) => {
+      return {
+        cartId: product.CartId,
+        createdAt: product.createdAt,
+        fullFilled: true,
+        id: product.id,
+        imageUrl: product.imageUrl,
+        name: product.name,
+        price: product.price,
+        productId: product.productId,
+        quantity: product.quantity,
+        updatedAt: product.updatedAt,
+      };
+    });
+
+    localStorage.setItem("guest", JSON.stringify([]));
+    setCart([]);
+    await axios.post('api/cart', cartData)
+
     }
   };
 

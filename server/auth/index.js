@@ -35,6 +35,7 @@ router.post("/signup", async (req, res, next) => {
       order: [ [ 'id', 'DESC' ]],
       });
     user.update({currentCart: cart.id})
+    cart.userId = user.id
 
     res.send({ token: await user.generateToken() });
   } catch (err) {
