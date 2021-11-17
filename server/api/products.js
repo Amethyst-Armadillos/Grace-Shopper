@@ -1,5 +1,5 @@
 const Product = require("../db/models/Products");
-const {requireToken, isAdmin} = require("./gatekeepingMiddleware")
+const { requireToken, isAdmin } = require("./gateKeepingMiddleware");
 
 const {
   models: { User, CartItem, Cart },
@@ -44,7 +44,6 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.put("/edit/:id", requireToken, isAdmin, async (req, res, next) => {
-
   try {
     //Brad destructured this to protect against injection attacks.
     const price = req.body.price;

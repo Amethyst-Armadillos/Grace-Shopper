@@ -3,7 +3,7 @@ const {
   models: { User, Cart, CartItem },
 } = require("../db");
 const Product = require("../db/models/Products");
-const {requireToken, isAdmin} = require("./gatekeepingMiddleware")
+const { requireToken, isAdmin } = require("./gateKeepingMiddleware");
 module.exports = router;
 
 //Before I even enter this route, I'm going to make sure that I'm logged in first.

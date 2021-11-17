@@ -6,14 +6,17 @@ import { motion } from "framer-motion";
 
 const tokenFromLocalStorage = window.localStorage.getItem("token");
 
-
 export const AllProducts = (props) => {
   const [data, setData] = useState([]);
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("guest")));
   useEffect(() => {
-    axios.get(`/api/products`, { headers: {authorization: tokenFromLocalStorage } }).then((response) => {
-      setData(response.data);
-    });
+    axios
+      .get(`/api/products`, {
+        headers: { authorization: tokenFromLocalStorage },
+      })
+      .then((response) => {
+        setData(response.data);
+      });
   }, []);
 
   const userId = useSelector((state) => state.auth.id);
@@ -70,27 +73,27 @@ export const AllProducts = (props) => {
       <motion.div
         initial={{ opacity: 0.01 }}
         animate={{ opacity: 1 }}
-        className='product-preview'
+        className="product-preview"
         key={product.id}
       >
         <Link to={`/products/${product.id}`}>
           <img
-            className='preview-image'
+            className="preview-image"
             src={product.imageUrl}
             alt={product.name}
           />
         </Link>
         <button
-          id='addCart'
-          type='button'
-          className='btn'
+          id="addCart"
+          type="button"
+          className="btn"
           onClick={() => handleCart(product.id)}
         >
           Add to Cart
         </button>
         {isAdmin && (
           <Link to={`/products/${product.id}/edit`}>
-            <button type='button'>Edit Product</button>
+            <button type="button">Edit Product</button>
           </Link>
         )}
       </motion.div>
@@ -98,10 +101,10 @@ export const AllProducts = (props) => {
   });
 
   return (
-    <div className='all-products-container'>
+    <div className="all-products-container">
       {mappedProducts}
       {isAdmin && (
-        <Link to='/create/products'>
+        <Link to="/create/products">
           <button>Add New Product</button>
         </Link>
       )}
