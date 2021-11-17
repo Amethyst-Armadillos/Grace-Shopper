@@ -38,7 +38,6 @@ router.post("/", async (req, res, next) => {
     let cart = await Cart.findOne({
       order: [["id", "DESC"]],
     });
-    console.log(cart, "this is cart");
     let Order = req.body.map((product) => {
       return {
         cartId: cart.id,
@@ -61,8 +60,6 @@ router.post("/", async (req, res, next) => {
         }
       };
       await product.update({ stock: newStock() });
-      console.log(product);
-
       await CartItem.create(order);
     });
 
@@ -71,6 +68,41 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
+
+//Adds product to cart, first arg is product id, second is user id, third is quantity
+router.put("/addproduct", async (req, res, next) => {
+  try {
+    let product = await Product.findByPk(req.body.productId);
+    let quantity = req.body.quantity;
+    let user = await User.findByPk(req.body.userId);
+    let currentCart = user.currentCart;
+    let cart = await Cart.findByPk(currentCart);
+    let previousItems = await cart.getCartItems();
+    for (let i = 0; i < previousItems.length; i++) {
+      if (
+        previousItems[i].productId === product.id &&
+        previousItems[i].fullFilled === false
+      ) {
+        let newQuantity =
+          parseInt(previousItems[i].quantity) + parseInt(quantity);
+        await previousItems[i].update({ quantity: newQuantity });
+        return res.send(previousItems[i]);
+      }
+    }
+    let cartItem = await CartItem.create({
+      quantity,
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      imageUrl: product.imageUrl,
+    });
+    cart.addCartItem(cartItem);
+    res.send(cart);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //Returns the cart of the user given userId
 router.get("/:id", async (req, res, next) => {
   try {
@@ -94,14 +126,12 @@ router.get("/:id", async (req, res, next) => {
 
 router.delete("/:cartId/:pId", async (req, res, next) => {
   try {
-    console.log("yes this is in delete while logged in", req.body);
     const user = await User.findOne({
       where: { currentCart: req.params.cartId },
     });
     const cartProduct = await CartItem.findOne({
       where: { productId: req.params.pId, cartId: user.currentCart },
     });
-    console.log(cartProduct, "what guy is delete");
     await cartProduct.destroy();
     res.json(cartProduct);
   } catch (error) {
