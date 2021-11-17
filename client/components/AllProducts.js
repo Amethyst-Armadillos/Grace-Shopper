@@ -20,42 +20,45 @@ export const AllProducts = (props) => {
 
   const handleCart = async function (id) {
     if (userId) {
-      axios.put(`/api/products/${[id, userId, 1]}`);
+      await axios.put(`/api/cart/addproduct`, {
+        productId: id,
+        userId,
+        quantity: 1,
+      });
     } else {
-     let product = await axios.get(`/api/products/${id}`)
-      let response = product
+      let product = await axios.get(`/api/products/${id}`);
+      let response = product;
 
-        let cartItem = {
-          quantity: 1,
-          productId: response.data.id,
-          name: response.data.name,
-          price: response.data.price,
-          imageUrl: response.data.imageUrl,
-          fullFilled: false,
-        };
+      let cartItem = {
+        quantity: 1,
+        productId: response.data.id,
+        name: response.data.name,
+        price: response.data.price,
+        imageUrl: response.data.imageUrl,
+        fullFilled: false,
+      };
 
-        if (cart.length >= 1) {
-          for (let i = 0; i < cart.length; i++) {
-            if (cart[i].productId === id && cart[i].fullFilled === false) {
-              cart[i].quantity += 1;
-            }
+      if (cart.length >= 1) {
+        for (let i = 0; i < cart.length; i++) {
+          if (cart[i].productId === id && cart[i].fullFilled === false) {
+            cart[i].quantity += 1;
           }
-
-          let found = cart.filter((product) => {
-            return product.productId === id && product.fullFilled === false;
-          });
-
-          if (found.length < 1) {
-            cart.push(cartItem);
-          }
-        } else {
-          cart.push(cartItem);
         }
 
-        setCart(cart);
+        let found = cart.filter((product) => {
+          return product.productId === id && product.fullFilled === false;
+        });
 
-        window.localStorage.setItem("guest", JSON.stringify(cart));
+        if (found.length < 1) {
+          cart.push(cartItem);
+        }
+      } else {
+        cart.push(cartItem);
+      }
 
+      setCart(cart);
+
+      window.localStorage.setItem("guest", JSON.stringify(cart));
     }
   };
 

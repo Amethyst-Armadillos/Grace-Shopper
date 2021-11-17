@@ -22,10 +22,13 @@ export const SingleProduct = (props) => {
   const userId = useSelector((state) => state.auth.id);
 
   const handleCart = async function (id) {
-    console.log(id,'hello');
-    if(userId){
-    axios.put(`/api/products/${[id, userId, 1]}`);
-    }else{
+    if (userId) {
+      await axios.put(`/api/cart/addproduct/`, {
+        productId: id,
+        userId: userId,
+        quantity: 1,
+      });
+    } else {
       await axios.get(`/api/products/${id}`).then((response) => {
         let cartItem = {
           quantity: 1,
@@ -67,18 +70,18 @@ export const SingleProduct = (props) => {
   };
 
   return (
-    <div className="container">
-      <div className="single-product-container">
+    <div className='container'>
+      <div className='single-product-container'>
         <div>{Product.name}</div>
         <div>{Product.price}</div>
-        <img className="single-image" src={Product.imageUrl} />
+        <img className='single-image' src={Product.imageUrl} />
         <button onClick={() => handleCart(Product.id)}>Add to cart</button>
         {isAdmin && (
           <div>
             <Link to={`/products/${Product.id}/edit`}>
               <button>Edit Product</button>
             </Link>
-            <button type="button" onClick={handleDelete}>
+            <button type='button' onClick={handleDelete}>
               Delete Object
             </button>
           </div>

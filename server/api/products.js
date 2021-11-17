@@ -41,67 +41,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-//Adds product to cart, first arg is product id, second is user id, third is quantity
-router.put("/:id", async (req, res, next) => {
-  try {
-    let params = req.params.id.split(",");
-    let product = await Product.findByPk(params[0]);
-    let quantity = params[2];
-    if (params[1] !== "") {
-      let user = await User.findByPk(params[1]);
-      let currentCart = user.currentCart;
-      console.log(currentCart, 'this is the current cart')
-      let cart = await Cart.findByPk(currentCart);
-      let previousItems = await cart.getCartItems();
-      for (let i = 0; i < previousItems.length; i++) {
-        if (
-          previousItems[i].productId === product.id &&
-          previousItems[i].fullFilled === false
-        ) {
-          let newQuantity =
-            parseInt(previousItems[i].quantity) + parseInt(quantity);
-          await previousItems[i].update({ quantity: newQuantity });
-          return res.send(previousItems[i]);
-        }
-      }
-      let cartItem = await CartItem.create({
-        quantity,
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        imageUrl: product.imageUrl,
-      });
-      cart.addCartItem(cartItem);
-      res.send(cart);
-    } else {
-      let previousItems = await CartItem.findAll({ where: { cartId: null } });
-      for (let i = 0; i < previousItems.length; i++) {
-        if (
-          previousItems[i].productId === product.id &&
-          previousItems[i].fullFilled === false
-        ) {
-          let newQuantity =
-            parseInt(previousItems[i].quantity) + parseInt(quantity);
-          await previousItems[i].update({ quantity: newQuantity });
-          return res.send(previousItems[i]);
-        }
-      }
-
-      let cartItem = await CartItem.create({
-        quantity,
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        imageUrl: product.imageUrl,
-      });
-
-      res.send(cartItem);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.put("/edit/:id", async (req, res, next) => {
   try {
     //Brad destructured this to protect against injection attacks.
