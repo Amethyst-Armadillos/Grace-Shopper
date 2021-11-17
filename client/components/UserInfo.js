@@ -10,10 +10,14 @@ export const UserInfo = (props) => {
     state.auth ? state.auth.securityLevel : "customer"
   );
 
+  //I'm trying to figure out how to add the user as part of the request body so that the middleware can access it.
   useEffect(() => {
-    axios.get("/api/users/").then((res) => {
-      setUser(res.data);
-    });
+
+    axios
+      .get("/api/users/", { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } })
+      .then((res) => {
+        setUser(res.data);
+      });
   }, []);
 
   if (securityLevel === "admin") {
@@ -29,7 +33,7 @@ export const UserInfo = (props) => {
                 <p>{user.securityLevel}</p>
                 <button
                   onClick={() =>
-                    axios.delete(`/api/users/${user.id}`).then((res) => {
+                    axios.delete(`/api/users/${user.id}`, { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }).then((res) => {
                       setUser(
                         users.filter((newuser) => newuser.id !== user.id)
                       );

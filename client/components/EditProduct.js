@@ -8,7 +8,7 @@ export const EditProduct = (props) => {
   });
   const [product, setProduct] = useState({});
   useEffect(() => {
-    axios.get(`/api/products/${props.match.params.id}`).then((res) => {
+    axios.get(`/api/products/${props.match.params.id}`, { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }).then((res) => {
       setProduct(res.data);
     });
   }, []);
@@ -16,7 +16,7 @@ export const EditProduct = (props) => {
   const handleSubmit = (data) => {
     data.preventDefault();
     const id = props.match.params.id[0];
-    axios.put(`/api/products/edit/${id}`, product).then((res) => {
+    axios.put(`/api/products/edit/${id}`, { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }, product).then((res) => {
       props.history.push("/");
     });
   };

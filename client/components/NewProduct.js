@@ -21,7 +21,7 @@ export const NewProduct = (props) => {
 
   const handleSubmit = (data) => {
     data.preventDefault();
-    axios.post(`/api/products/new`, product).then((res) => {
+    axios.post(`/api/products/new`,{ headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }, product).then((res) => {
       props.history.push("/products");
     });
   };

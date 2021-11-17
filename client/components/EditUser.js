@@ -26,7 +26,7 @@ export const EditUser = (props) => {
 
   useEffect(() => {
     axios
-      .get(`/api/users/${props.match.params.id}`)
+      .get(`/api/users/${props.match.params.id}`,{ headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } })
       .then((res) => {
         setUser(res.data);
       })
@@ -72,7 +72,7 @@ export const EditUser = (props) => {
             <button
               onClick={() => {
                 axios
-                  .put(`/api/users/${props.match.params.id}`, user)
+                  .put(`/api/users/${props.match.params.id}`,{ headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } }, user)
 
                   .then((res) => {
                     props.history.push("/users");
