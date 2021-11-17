@@ -11,10 +11,13 @@ export const UserInfo = (props) => {
   );
 
   //I'm trying to figure out how to add the user as part of the request body so that the middleware can access it.
+  // console.log(tokenFromLocalStorage)
+
   useEffect(() => {
+    const tokenFromLocalStorage = window.localStorage.getItem("token");
 
     axios
-      .get("/api/users/", { headers: {authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjM3MTE5NDUyfQ.v2Y1ucFudr44zJhKjuqiCJhTnywb91eexUhgCcq41M0" } })
+      .get("/api/users/", { headers: {authorization: tokenFromLocalStorage} })
       .then((res) => {
         setUser(res.data);
       });
