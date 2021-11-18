@@ -13,15 +13,11 @@ export const Home = (props) => {
   return (
     <div className="home">
       <div className="content">
-        <h3>fresh flowers</h3>
+        <h3>Wonderful Flowers</h3>
         <span> natural & beautiful flowers </span>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-          laborum ut minus corrupti dolorum dolore assumenda iste voluptate
-          dolorem pariatur. Please work
-        </p>
+        <p>They're just full of wonder!</p>
         <a href="/products" className="btn">
-          shop now
+          Shop Now
         </a>
       </div>
     </div>

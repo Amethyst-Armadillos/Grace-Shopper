@@ -20,7 +20,7 @@ html {
 }
 
 .nav-bar {
-  background-color: #f5f5f5;
+  background-color: #fffffc;
   position: fixed;
   top: 0;
   left: 0;
@@ -30,6 +30,7 @@ html {
   justify-content: space-between;
   opacity: 0.8a;
   padding: 1rem 9%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 .navlogo {
   font-size: 1rem;
@@ -45,6 +46,10 @@ nav .nav-links {
   padding: 0 1rem;
   color: #666;
 }
+.nav-links a {
+  color: black;
+}
+
 .nav-links a:hover {
   color: var(--pink);
   text-decoration: none;
@@ -65,6 +70,7 @@ header {
   display: flex;
   align-items: center;
   min-height: 100vh;
+  min-width: 1440px;
   background: url(../images/home-bg.jpg) no-repeat;
   background-size: cover;
   background-position: center;
@@ -135,7 +141,7 @@ form div {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
-  background-color: aliceblue;
+  background-color: #dceeff;
   padding: 7.5%;
 }
 
@@ -143,13 +149,16 @@ form div {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aliceblue;
-  padding-top: 75px;
+  background-color: #dceeff;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  min-height: 100vh;
 }
 
 .product-preview {
   display: flex;
-  background-color: var(--pink);
+  background-color: #fffffc;
   padding: 1em;
   height: 300px;
   width: 25%;
@@ -158,6 +167,7 @@ form div {
   align-items: center;
   border-radius: 20px;
   margin: 1em;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
 }
 
 .single-product-container {
@@ -184,11 +194,13 @@ form div {
 }
 
 .cart-container {
-  width: 500px;
+  display: block;
+  margin-top: 2rem;
+  width: 600px;
   height: 85%;
-  background-color: maroon;
+  background-color: #ffffff;
   border-radius: 20px;
-  box-shadow: 0px 25px 40px #c216d933;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .cart-header {
@@ -198,13 +210,17 @@ form div {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #000000;
+  margin-bottom: 5px;
 }
 
 .cart-title {
   font-size: 20px;
   font-family: sans-serif;
   font-weight: 700;
-  color: white;
+  color: black;
+  padding-top: 1rem;
+  padding-bottom: 7px;
 }
 
 .cart-action {
@@ -217,7 +233,7 @@ form div {
 
 .cart-items {
   margin: auto;
-  width: 90%;
+  width: 95%;
   height: 30%;
   display: flex;
   justify-content: space-between;
@@ -231,7 +247,9 @@ form div {
 
 .cart-images {
   height: 120px;
-  width: 100px;
+  width: 120px;
+  border-radius: 15%;
+  margin-bottom: 1rem;
 }
 
 .about {
@@ -243,7 +261,7 @@ form div {
   line-height: 10px;
   font-size: 12px;
   font-weight: 800;
-  color: white;
+  color: black;
 }
 
 .cart-counter {
@@ -254,15 +272,15 @@ form div {
 }
 
 .cart-counter-btn {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   background-color: #d9d9d9;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 800;
   color: black;
   cursor: pointer;
 }
@@ -270,14 +288,14 @@ form div {
 .cart-count {
   font-size: 20px;
   font-weight: 900;
-  color: white;
+  color: black;
 }
 
 .cart-amount {
   padding-top: 20px;
   font-size: 20px;
   font-weight: 800;
-  color: white;
+  color: black;
 }
 
 .cart-remove {
@@ -290,6 +308,7 @@ form div {
 
 .checkout {
   float: right;
+  margin-top: 1rem;
   margin-right: 5%;
   width: 28%;
 }
@@ -332,6 +351,10 @@ form div {
   color: #202020;
 }
 
+.checkout-button:hover {
+  background: #f48498;
+}
+
 .home {
   margin-left: 0;
   margin-right: 0;
@@ -341,7 +364,6 @@ form div {
 .history {
   display: flex;
   justify-content: center;
-  padding: 1rem;
 }
 
 .history-table {
@@ -389,7 +411,46 @@ form div {
 }
 
 .nothing {
-  font-size: x-large;
+  font-size: large;
   background-color: white;
   text-align: center;
+}
+
+/* Auth form CSS */
+
+.auth-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: white;
+  border-radius: 10px;
+}
+
+.auth-form h1 {
+  text-align: center;
+  padding: 20px 0 20px 0;
+  border-bottom: 1px solid black;
+}
+
+.text-box {
+  position: relative;
+  margin: 30px 0;
+  border-bottom: black solid 1px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0 5px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+}
+
+.auth-form button {
+  width: 100%;
+  height: 50px;
 }

@@ -20,11 +20,11 @@ const isAdmin = (req, res, next) => {
     return res.status(403).send("You shall not pass!");
   } else {
     //if my user IS an admin, pass them forward.
-    next()
+    next();
   }
 };
 
 module.exports = {
   requireToken,
-  isAdmin
+  isAdmin,
 };

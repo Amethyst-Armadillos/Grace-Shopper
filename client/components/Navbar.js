@@ -9,7 +9,7 @@ const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
     <img src="/flowerlogo.png" className="navlogo" />
     <nav className="nav-links">
       <Link to="/home">Home</Link>
-      <Link to="/about">about</Link>
+      <Link to="/about">About</Link>
       <Link to="/products">Products</Link>
       <Link to="/history">History</Link>
       <Link to="/contact">Contact</Link>
