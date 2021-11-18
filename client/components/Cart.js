@@ -2,9 +2,13 @@ import axios from "axios";
 import { use } from "chai";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {push} from 'react-router-redux'
+import { useHistory } from "react-router-dom"
 
 export const Cart = () => {
   const [cart, setCart] = useState([]);
+
+  const history = useHistory()
 
   //the below checks to see if a user is logged in.  If so, it returns their user-specific cart. Otherwise, it returns the cart currently assigned to "guest".
 
@@ -105,6 +109,7 @@ export const Cart = () => {
     if (id && id !== 'undefined') {
       let response = await axios.put(`/api/cart/${id}`)
         setCart(response.data);
+        history.push('/history')
 
 
     }else{
@@ -128,7 +133,9 @@ export const Cart = () => {
     localStorage.setItem("guest", JSON.stringify([]));
     setCart([]);
     await axios.post('api/cart', cartData)
+    console.log(useHistory)
 
+    history.push('/GuestCheckout')
     }
   };
 
