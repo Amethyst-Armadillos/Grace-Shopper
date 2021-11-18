@@ -12,6 +12,7 @@ import { EditUser } from "./components/EditUser";
 import { EditProduct } from "./components/EditProduct";
 import { NewProduct } from "./components/NewProduct";
 import OrderHistory from "./components/OrderHistory";
+import GuestCheckout from "./components/GuestCheckout";
 
 /**
  * COMPONENT
@@ -35,6 +36,7 @@ class Routes extends Component {
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/userinfo" component={UserInfo} />
           <Route exact path="/history" component={OrderHistory} />
+          <Route exact path="/GuestCheckout" component={GuestCheckout} />
           <Route exact path="/users/:id" component={EditUser} />
           <Route exact path="/products/:id/edit" component={EditProduct} />
           <Route exact path="/create/products" component={NewProduct} />

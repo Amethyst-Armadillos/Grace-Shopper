@@ -13,6 +13,20 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get('/guestCheckout', async (req, res, next) => {
+  try {
+    let cart =  await Cart.findOne({
+      order: [["id", "DESC"]],
+    });
+
+    res.send(cart)
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+
 router.get("/history/:userId", async (req, res, next) => {
   try {
     const user = await Cart.findAll({
@@ -234,5 +248,6 @@ router.put("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = router;
