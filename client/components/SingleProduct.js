@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export const SingleProduct = (props) => {
   const [Product, setData] = useState("");
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem("guest")));
+  const [quantity, setQuantity] = useState(1);
 
   const securityLevel = useSelector((state) =>
     state.auth ? state.auth.securityLevel : "customer"
@@ -28,12 +29,12 @@ export const SingleProduct = (props) => {
       await axios.put(`/api/cart/addproduct/`, {
         productId: id,
         userId: userId,
-        quantity: 1,
+        quantity,
       });
     } else {
       await axios.get(`/api/products/${id}`).then((response) => {
         let cartItem = {
-          quantity: 1,
+          quantity,
           productId: response.data.id,
           name: response.data.name,
           price: response.data.price,
@@ -44,7 +45,7 @@ export const SingleProduct = (props) => {
         if (cart.length >= 1) {
           for (let i = 0; i < cart.length; i++) {
             if (cart[i].productId === id && cart[i].fullFilled === false) {
-              cart[i].quantity += 1;
+              cart[i].quantity += quantity;
             }
           }
 
@@ -67,7 +68,9 @@ export const SingleProduct = (props) => {
   };
 
   const handleDelete = (e) => {
-    axios.delete(`/api/products/${props.match.params.id}`, { headers: {authorization: tokenFromLocalStorage } } );
+    axios.delete(`/api/products/${props.match.params.id}`, {
+      headers: { authorization: tokenFromLocalStorage },
+    });
     window.open("/");
   };
 
@@ -77,7 +80,20 @@ export const SingleProduct = (props) => {
         <div>{Product.name}</div>
         <div>{Product.price}</div>
         <img className='single-image' src={Product.imageUrl} />
-        <button onClick={() => handleCart(Product.id)}>Add to cart</button>
+        {Product.stock > 0 && (
+          <input
+            type='number'
+            min='1'
+            max={Product.stock}
+            defaultValue='1'
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+        )}
+        {Product.stock > 0 ? (
+          <button onClick={() => handleCart(Product.id)}>Add to cart</button>
+        ) : (
+          <p>Out of stock :(</p>
+        )}
         {isAdmin && (
           <div>
             <Link to={`/products/${Product.id}/edit`}>

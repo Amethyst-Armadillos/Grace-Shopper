@@ -2,9 +2,13 @@ import axios from "axios";
 import { use } from "chai";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import {push} from 'react-router-redux'
+import { useHistory } from "react-router-dom"
 
 export const Cart = () => {
   const [cart, setCart] = useState([]);
+
+  const history = useHistory()
 
   //the below checks to see if a user is logged in.  If so, it returns their user-specific cart. Otherwise, it returns the cart currently assigned to "guest".
 
@@ -98,30 +102,37 @@ export const Cart = () => {
   };
 
   const handleCheckOut = async (id) => {
-    if (id && id !== "undefined") {
-      let response = await axios.put(`/api/cart/${id}`);
-      setCart(response.data);
-    } else {
-      let cartData = JSON.parse(localStorage.getItem("guest"));
 
-      cartData = cartData.map((product) => {
-        return {
-          cartId: product.CartId,
-          createdAt: product.createdAt,
-          fullFilled: true,
-          id: product.id,
-          imageUrl: product.imageUrl,
-          name: product.name,
-          price: product.price,
-          productId: product.productId,
-          quantity: product.quantity,
-          updatedAt: product.updatedAt,
-        };
-      });
+    if (id && id !== 'undefined') {
+      let response = await axios.put(`/api/cart/${id}`)
+        setCart(response.data);
+        history.push('/history')
 
-      localStorage.setItem("guest", JSON.stringify([]));
-      setCart([]);
-      await axios.post("api/cart", cartData);
+
+    }else{
+    let cartData = JSON.parse(localStorage.getItem("guest"));
+
+    cartData = cartData.map((product) => {
+      return {
+        cartId: product.CartId,
+        createdAt: product.createdAt,
+        fullFilled: true,
+        id: product.id,
+        imageUrl: product.imageUrl,
+        name: product.name,
+        price: product.price,
+        productId: product.productId,
+        quantity: product.quantity,
+        updatedAt: product.updatedAt,
+      };
+    });
+
+    localStorage.setItem("guest", JSON.stringify([]));
+    setCart([]);
+    await axios.post('api/cart', cartData)
+
+    history.push('/GuestCheckout')
+
     }
   };
 
