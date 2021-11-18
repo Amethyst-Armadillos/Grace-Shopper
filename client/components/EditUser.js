@@ -52,11 +52,11 @@ export const EditUser = (props) => {
               />
             </label>
             <label>
-              Password:
+              Email:
               <input
                 type='text'
-                value={user.password}
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                value={user.email}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
               />
             </label>
             {isAdmin && (
