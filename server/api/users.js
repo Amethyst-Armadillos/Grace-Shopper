@@ -49,9 +49,10 @@ router.put("/edit/:id", async (req, res, next) => {
     const user = await User.findByPk(req.params.id);
     console.log("this is req body", req.body);
     const username = req.body.headers.user.username;
-
+    const email = req.body.headers.user.email;
+    const securityLevel = req.body.headers.user.securityLevel;
     await user
-      .update({ username })
+      .update({ username, email, securityLevel })
       .then(() => res.sendStatus(204))
       .catch(next);
   } catch (err) {
