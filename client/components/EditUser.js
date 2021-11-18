@@ -26,7 +26,9 @@ export const EditUser = (props) => {
   const tokenFromLocalStorage = window.localStorage.getItem("token");
   useEffect(() => {
     axios
-      .get(`/api/users/${props.match.params.id}`,{ headers: {authorization: tokenFromLocalStorage } })
+      .get(`/api/users/${props.match.params.id}`, {
+        headers: { authorization: tokenFromLocalStorage },
+      })
       .then((res) => {
         setUser(res.data);
       })
@@ -44,7 +46,7 @@ export const EditUser = (props) => {
             <label>
               Username:
               <input
-                type="text"
+                type='text'
                 value={user.username}
                 onChange={(e) => setUser({ ...user, username: e.target.value })}
               />
@@ -52,7 +54,7 @@ export const EditUser = (props) => {
             <label>
               Password:
               <input
-                type="text"
+                type='text'
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
               />
@@ -61,7 +63,7 @@ export const EditUser = (props) => {
               <label>
                 Security Level:
                 <input
-                  type="text"
+                  type='text'
                   value={user.securityLevel}
                   onChange={(e) =>
                     setUser({ ...user, securityLevel: e.target.value })
@@ -72,7 +74,9 @@ export const EditUser = (props) => {
             <button
               onClick={() => {
                 axios
-                  .put(`/api/users/${props.match.params.id}`,{ headers: {authorization: tokenFromLocalStorage} }, user)
+                  .put(`/api/users/edit/${user.id}`, {
+                    headers: { authorization: tokenFromLocalStorage, user },
+                  })
 
                   .then((res) => {
                     props.history.push("/users");

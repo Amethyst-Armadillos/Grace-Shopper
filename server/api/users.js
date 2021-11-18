@@ -44,11 +44,14 @@ router.delete("/:id", requireToken, isAdmin, (req, res, next) => {
 });
 
 //@chase this route is not working properly.  As you fix it make sure to destructure the req.body to protect against injection.
-router.put("/edit/:id", requireToken, isAdmin, (req, res, next) => {
+router.put("/edit/:id", async (req, res, next) => {
   try {
-    User.update(req.body, {
-      where: { id: req.params.id },
-    })
+    const user = await User.findByPk(req.params.id);
+    console.log("this is req body", req.body);
+    const username = req.body.headers.user.username;
+
+    await user
+      .update({ username })
       .then(() => res.sendStatus(204))
       .catch(next);
   } catch (err) {
