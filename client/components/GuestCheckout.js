@@ -52,7 +52,7 @@ const GuestCheckout = (props) => {
         <div className="content">
           <h3>fresh flowers</h3>
           <span> Thank you for shopping with us! </span>
-          <p>Your order number is {guestCartId.id}</p>
+          <p>Your order number is 1</p>
           <a href="/products" className="btn">
             shop now
           </a>
