@@ -34,7 +34,6 @@ export const Cart = () => {
     }
   }, []);
 
-
   const handleDelete = (cartId, id) => {
     let guestCart = JSON.parse(localStorage.getItem("guest"));
     console.log("cart", cartId, "id", id);
@@ -47,7 +46,6 @@ export const Cart = () => {
       setCart(guestCardEdit);
       localStorage.setItem("guest", JSON.stringify(guestCardEdit));
     }
-
   };
 
   const decrementCount = async function (cartId, productId, quantity) {
@@ -60,10 +58,9 @@ export const Cart = () => {
         cart: cart,
       });
 
-      let response = await axios.get(`/api/cart/${userId}`)
+      let response = await axios.get(`/api/cart/${userId}`);
 
-        setCart(response.data);
-
+      setCart(response.data);
     } else {
       items = JSON.parse(localStorage.getItem("guest"));
 
@@ -89,9 +86,8 @@ export const Cart = () => {
         cart: cart,
       });
 
-      let response = await axios.get(`/api/cart/${userId}`)
-        setCart(response.data);
-
+      let response = await axios.get(`/api/cart/${userId}`);
+      setCart(response.data);
     } else {
       cart = JSON.parse(localStorage.getItem("guest"));
 
@@ -106,6 +102,7 @@ export const Cart = () => {
   };
 
   const handleCheckOut = async (id) => {
+
     if (id && id !== 'undefined') {
       let response = await axios.put(`/api/cart/${id}`)
         setCart(response.data);
@@ -133,9 +130,9 @@ export const Cart = () => {
     localStorage.setItem("guest", JSON.stringify([]));
     setCart([]);
     await axios.post('api/cart', cartData)
-    console.log(useHistory)
 
     history.push('/GuestCheckout')
+
     }
   };
 
@@ -187,25 +184,28 @@ export const Cart = () => {
             </div>
             <div className="cart-prices">
               <div className="cart-amount">${product.price}</div>
-              <button
+              <p
                 className="cart-remove"
                 onClick={() => handleDelete(product.cartId, product.productId)}
               >
                 Remove
-              </button>
+              </p>
             </div>
           </div>
         );
       });
     } else {
-      mappedCart = <h1>There's nothing here...</h1>;
+      mappedCart = (
+        <h1 className="nothing">
+          Hmm... There doesn't seem to be anything here.
+        </h1>
+      );
     }
   }
   return (
     <div className="cart-container">
       <div className="cart-header">
         <h3 className="cart-title">Shopping Cart</h3>
-        <h5 className="cart-action">Remove all</h5>
       </div>
 
       <div>{mappedCart}</div>

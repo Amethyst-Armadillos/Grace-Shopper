@@ -5,6 +5,7 @@ import { logout } from "../store";
 import { useSelector } from "react-redux";
 
 const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
+
   <nav className='nav-bar'>
     <img src='/flowerlogo.png' className='navlogo' />
     <nav className='nav-links'>
@@ -13,6 +14,7 @@ const Navbar = ({ handleClick, isLoggedIn, securityLevel }) => (
       <Link to='/products'>Products</Link>
       {isLoggedIn && <Link to='/history'>History</Link>}
       <Link to='/contact'>Contact</Link>
+
       {isLoggedIn ? (
         <a href='#' onClick={handleClick}>
           Logout

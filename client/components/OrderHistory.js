@@ -43,7 +43,7 @@ const OrderHistory = () => {
   }
 
   return (
-    <div>
+    <div className="history-order">
       <h2 className="history">Order History</h2>
       <table className="history-table">
         <thead>
